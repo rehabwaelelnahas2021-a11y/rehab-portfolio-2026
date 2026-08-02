@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIESEC Showcase — Rehab Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  /* Blue Theme Variables */
+  --bg:#04060c; --bg-rgb:4,6,12;
+  --bg-card:#0b1220; --bg-card-2:#101b2e; --bg-alt:#070c16;
+  --blue:#3d8bfd; --blue-bright:#9ccbff; --blue-glow:rgba(61,139,253,0.35);
+  --ice-top:#5f7fa8; --ice-bottom:#e3f2ff;
+  --text:#e9f1fb; --muted:#7c8aa3; --border:#1b2740;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+html{scroll-behavior:smooth;}
+body{font-family:'Albert Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+h1,h2,h3{font-family:'Albert Sans',sans-serif;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1300px;margin:0 auto;padding:0 30px;position:relative;}
+::selection{background:var(--blue);color:#fff;}
+
+/* CURSOR */
+.cursor-dot{width:8px;height:8px;background:#fff;position:fixed;border-radius:50%;pointer-events:none;z-index:100001;transform:translate(-50%,-50%);box-shadow:0 0 10px #fff;}
+.cursor-ring{width:38px;height:38px;border:2px solid var(--blue-bright);position:fixed;border-radius:50%;pointer-events:none;z-index:100000;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s,background-color .15s;}
+.cursor-ring.hovered{width:60px;height:60px;border-color:#fff;background:rgba(61,139,253,.15);box-shadow:0 0 20px var(--blue-glow);}
+
+/* EGYPTIAN HIEROGLYPHS */
+#hieroglyph-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: hidden; }
+.floating-symbol { position: absolute; color: var(--blue-bright); font-size: 2.2rem; opacity: 0.08; animation: driftUp 22s linear infinite; }
+@keyframes driftUp { 0% { transform: translateY(105vh) scale(0.8); opacity: 0; } 15% { opacity: 0.15; } 85% { opacity: 0.15; } 100% { transform: translateY(-10vh) scale(1.1); opacity: 0; } }
+
+/* AURORA BACKGROUND */
+#aurora-bg {
+  position: fixed; inset: 0; width: 100vw; height: 100vh;
+  background: #04060c; z-index: -2; overflow: hidden; display: flex; align-items: flex-end;
+}
+#aurora-overlay {
+  position: fixed; inset: 0; pointer-events: none; z-index: -1;
+  background: radial-gradient(ellipse 90% 80% at 50% 100%, transparent 40%, rgba(4,6,12,0.95) 100%);
+}
+
+/* NAV & TOP LINK */
+header{position:fixed;width:100%;top:0;z-index:10000;padding:24px 50px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom, rgba(var(--bg-rgb),.9), transparent);transition:.3s;border-bottom:1px solid transparent;}
+header.scrolled{background:rgba(var(--bg-rgb),.85);backdrop-filter:blur(10px);padding:15px 50px;border-bottom-color:var(--border);}
+.nav-brand{font-size:1.4rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:18px;}
+.back-home-link{font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;background:rgba(61,139,253,0.12);border:1px solid var(--blue);transition:all .3s ease;}
+.back-home-link:hover{background:var(--blue);color:#fff;box-shadow:0 0 15px var(--blue-glow);}
+.nav-links{display:flex;gap:38px;list-style:none;}
+.nav-links a{font-size:.92rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);opacity:.85;transition:.2s;}
+.nav-links a:hover{opacity:1;color:var(--blue-bright);}
+
+/* HERO */
+.hero-section {
+  position: relative; min-height: 65vh; padding-top: 140px; padding-bottom: 40px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10;
+}
+
+/* AIESEC LOGO IMAGE AT TOP */
+.aiesec-top-logo {
+  max-width: 320px; width: 75%; height: auto; object-fit: contain; margin-bottom: 25px;
+  filter: drop-shadow(0 0 20px rgba(61,139,253,0.4));
+  border-radius: 12px;
+}
+
+.hero-title { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 800; text-transform: uppercase; line-height: 1.1; }
+.hero-tagline { color: var(--muted); font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem; max-width: 650px; margin-top: 16px; }
+
+/* SHOWCASE GRID & CONTAINERS */
+.showcase-container { padding: 40px 0 120px; position: relative; z-index: 10; }
+.section-title { font-size: 1.6rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; color: var(--blue-bright); display: flex; align-items: center; gap: 12px; }
+
+/* HORIZONTAL SCROLLABLE CONTAINER FOR VIDEOS */
+.horizontal-scroll-container {
+  display: flex; gap: 30px; overflow-x: auto; padding: 20px 10px 40px 10px;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+}
+.horizontal-scroll-container::-webkit-scrollbar { height: 8px; }
+.horizontal-scroll-container::-webkit-scrollbar-track { background: var(--bg-card); border-radius: 10px; }
+.horizontal-scroll-container::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
+
+/* REEL CONTAINER WITH BRIEF SPACE */
+.reel-wrapper { flex: 0 0 auto; display: flex; flex-direction: column; gap: 15px; scroll-snap-align: center; max-width: 280px; }
+.reel-wrapper.horizontal { max-width: 480px; }
+.reel-brief { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 15px; font-size: 0.9rem; color: var(--muted); min-height: 80px; }
+
+/* DEVICE FRAMES */
+
+/* IPAD FRAME (FOR EMBEDDED PDFs) */
+.ipad-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 40px; margin-bottom: 80px; }
+.ipad-frame {
+  position: relative; width: 100%; aspect-ratio: 4 / 3; background: #0c0f1d;
+  border-radius: 24px; border: 12px solid #161e33;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 15px rgba(61,139,253,0.15);
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.ipad-frame:hover {
+  border-color: var(--blue-bright);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.9), 0 0 30px var(--blue-glow);
+}
+.ipad-camera {
+  position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  width: 6px; height: 6px; background: #000; border-radius: 50%; z-index: 10;
+}
+.ipad-pdf-object {
+  width: 100%; height: 100%; border: none; background: #ffffff;
+}
+.ipad-footer-bar {
+  background: var(--bg-card); padding: 10px 18px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border);
+}
+.ipad-footer-bar span { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: #fff; letter-spacing: 1px; }
+.ipad-open-btn { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--blue-bright); background: transparent; border: 1px solid var(--blue-bright); padding: 6px 14px; border-radius: 999px; transition: 0.3s; }
+.ipad-open-btn:hover { background: var(--blue); color: #fff; }
+
+/* PHONE FRAME VERTICAL (FOR 9:16 REELS) */
+.phone-frame {
+  position: relative; width: 100%; aspect-ratio: 9 / 19; background: #000;
+  border-radius: 36px; border: 10px solid #161e33;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 15px rgba(61,139,253,0.15);
+  overflow: hidden; transition: transform 0.4s ease, border-color 0.4s ease;
+}
+.phone-frame:hover {
+  border-color: var(--blue-bright);
+}
+.phone-notch {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 100px; height: 16px; background: #161e33; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; z-index: 10; pointer-events: none;
+}
+.video-content { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  cursor: pointer; 
+  filter: blur(8px);
+  transition: filter 0.4s ease;
+}
+
+/* HORIZONTAL DEVICE FRAME (FOR LANDSCAPE VIDEOS) */
+.horizontal-frame {
+  position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000;
+  border-radius: 20px; border: 10px solid #161e33;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 15px rgba(61,139,253,0.15);
+  overflow: hidden; transition: transform 0.4s ease, border-color 0.4s ease;
+}
+.horizontal-frame:hover {
+  border-color: var(--blue-bright);
+}
+
+/* PLAY/PAUSE OVERLAY INDICATOR */
+.video-wrapper { position: relative; width: 100%; height: 100%; }
+.play-status-icon {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-size: 2.5rem; color: rgba(255,255,255,0.8); pointer-events: none;
+  opacity: 1; transition: opacity 0.3s ease;
+}
+.video-wrapper.playing .play-status-icon { opacity: 0; }
+.video-wrapper.playing .video-content { filter: blur(0px); }
+
+/* FOOTER */
+footer{padding:56px 0 28px;border-top:1px solid var(--border); background: var(--bg); position: relative; z-index: 10;}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;margin-bottom:36px;}
+.footer-brand{font-size:1.3rem;font-weight:800;text-transform:uppercase;}
+.footer-tagline{color:var(--muted);font-size:.88rem;margin-top:8px;max-width:300px;font-weight:300;}
+.footer-links{display:flex;gap:56px;flex-wrap:wrap;}
+.footer-col h4{font-size:.8rem;letter-spacing:2px;color:var(--blue-bright);margin-bottom:14px;text-transform:uppercase;}
+.footer-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:9px;transition:.2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;flex-wrap:wrap;gap:10px;}
+
+@media (max-width:900px){
+  *{cursor:auto;}
+  .cursor-dot,.cursor-ring{display:none;}
+  header{padding:18px 22px;}
+  .ipad-grid { grid-template-columns: 1fr; }
+  .reel-wrapper { max-width: 220px; }
+  .reel-wrapper.horizontal { max-width: 320px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Aurora Background -->
+<div id="aurora-bg"></div>
+<div id="aurora-overlay"></div>
+
+<!-- Header -->
+<header id="site-header">
+  <div class="nav-brand">
+    <a href="index.html" class="back-home-link hover-target"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    PORTFOLIO
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" class="hover-target">Home</a></li>
+    <li><a href="index.html#specialties" class="hover-target">Specialties</a></li>
+    <li><a href="index.html#contact" class="hover-target">Contact</a></li>
+  </ul>
+</header>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <!-- Top AIESEC Logo Image -->
+  <img src="AIESEC-Blue-Logo.jpg" alt="AIESEC Blue Logo" class="aiesec-top-logo hover-target" onerror="this.src='AIESEC Logo Blue.mp4'">
+  
+  <h1 class="hero-title">AIESEC <span class="grad-text">Marketing Showcase</span></h1>
+  <p class="hero-tagline">Interactive Booklets, Video Reels, &amp; Campaign Visuals.</p>
+</section>
+
+<!-- Main Media Showcase -->
+<div class="container showcase-container">
+
+  <!-- Horizontal Scrollable Video Reels Section -->
+  <h3 class="section-title"><i class="fa-solid fa-sliders"></i> Video Reels &amp; Campaigns </h3>
+  <div class="horizontal-scroll-container" style="margin-bottom: 60px;">
+    
+    <!-- Vertical Reels (Phone Frames) -->
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="aiesec-reel-1.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+         A reel designed to showcase the vibes of heritage cairo, using footage from real life eps on exchnage programs.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="aiesec-reel-2.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+         A reel designed to showcase the vibes of heritage cairo, using footage from real life eps on exchnage programs.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="aiesec-reel-3.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+        A reel designed to showcase the vibes of heritage cairo, using footage from real life eps on exchnage programs.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="aiesec-reel-4.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+        A teaser for the results of a national campaign.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="aiesec-reel-6.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+       A reel idea proposed to prormote for Exceutive boards to come to the conference.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="aiesec-reel-7.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+         A reel designed to showcase the vibes of heritage cairo, using footage from real life eps on exchnage programs.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="aiesec-reel-9.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+        A reel designed to showcase the vibes of heritage cairo, using footage from real life eps on exchnage programs.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="aiesec-reel-10.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+        A reel to prormote the vibes and outings carried for the exchange participants.
+      </div>
+    </div>
+
+    <!-- Reel 11 / AIESEC-1.mp4 -->
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="AIESEC-1.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+        A video designed to promote the touristic attractions my local committee has to offer to exchange participants, and to promote the local committee itself.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <div class="video-wrapper">
+          <video src="campaign-instagram.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+        A national campaign to get to know the Comission of Local vice presidents at the start of the summer peak year.
+      </div>
+    </div>
+
+    <!-- Horizontal Landscape Videos (Horizontal Frames) -->
+    <div class="reel-wrapper horizontal">
+      <div class="horizontal-frame hover-target">
+        <div class="video-wrapper">
+          <video src="Tv-reel.mp4" controls loop playsinline class="video-content"></video>
+          <i class="fa-solid fa-play play-status-icon"></i>
+        </div>
+      </div>
+      <div class="reel-brief">
+        A story uploaded to promote the national campaign of results on performance and impact of the organization on the local and national level.
+      </div>
+    </div>
+
+
+    <!-- Image Cards -->
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <img src="aiesec-content-views-1.jpg" alt="Content Views 1" class="video-content" style="filter: none;">
+      </div>
+      <div class="reel-brief">
+        The first reel uploaded without any paid ads, just a well crafted content and a good strategy.
+      </div>
+    </div>
+
+    <div class="reel-wrapper">
+      <div class="phone-frame hover-target">
+        <div class="phone-notch"></div>
+        <img src="aiesec-conetnt-views-2.jpg" alt="Content Views 2" class="video-content" style="filter: none;">
+      </div>
+      <div class="reel-brief">
+        Results of a organic video with no involvement of paid ads, just a well crafted content and a good strategy.
+      </div>
+    </div>
+
+  </div>
+  
+  <!-- Embedded PDFs Section in iPad Frames -->
+  <h3 class="section-title"><i class="fa-solid fa-tablet-screen-button"></i> PDF Booklets on local and national level</h3>
+  <div class="ipad-grid">
+    
+    <div class="ipad-frame hover-target">
+      <div class="ipad-camera"></div>
+      <object data="AAST-IN-CAIRO-BOOKLET.pdf" type="application/pdf" class="ipad-pdf-object">
+        <p>PDF preview unavailable. <a href="AAST-IN-CAIRO-BOOKLET.pdf">Download File</a></p>
+      </object>
+      <div class="ipad-footer-bar">
+        <span>AAST In Cairo introductory booklet 2024</span>
+        <a href="AAST-IN-CAIRO-BOOKLET.pdf" target="_blank" class="ipad-open-btn"><i class="fa-solid fa-up-right-from-square"></i> Fullscreen</a>
+      </div>
+    </div>
+
+    <div class="ipad-frame hover-target">
+      <div class="ipad-camera"></div>
+      <object data="AAST-IN-CAIRO-BUDGET-BOOKLET-24.pdf" type="application/pdf" class="ipad-pdf-object">
+        <p>PDF preview unavailable. <a href="AAST-IN-CAIRO-BUDGET-BOOKLET-24.pdf">Download File</a></p>
+      </object>
+      <div class="ipad-footer-bar">
+        <span>Tips & Budget Booklet 2024 for exchange participants</span>
+        <a href="AAST-IN-CAIRO-BUDGET-BOOKLET-24.pdf" target="_blank" class="ipad-open-btn"><i class="fa-solid fa-up-right-from-square"></i> Fullscreen</a>
+      </div>
+    </div>
+
+    <div class="ipad-frame hover-target">
+      <div class="ipad-camera"></div>
+      <object data="logo-merch-designs.pdf" type="application/pdf" class="ipad-pdf-object">
+        <p>PDF preview unavailable. <a href="logo-merch-designs.pdf">Download File</a></p>
+      </object>
+      <div class="ipad-footer-bar">
+        <span>Logo &amp; Merch Designs for local & national conference and executive board </span>
+        <a href="logo-merch-designs.pdf" target="_blank" class="ipad-open-btn"><i class="fa-solid fa-up-right-from-square"></i> Fullscreen</a>
+      </div>
+    </div>
+
+    <div class="ipad-frame hover-target">
+      <div class="ipad-camera"></div>
+      <object data="BUDGET-BOOKLET-IGV-EGYPT.pdf" type="application/pdf" class="ipad-pdf-object">
+        <p>PDF preview unavailable. <a href="BUDGET-BOOKLET-IGV-EGYPT.pdf">Download File</a></p>
+      </object>
+      <div class="ipad-footer-bar">
+        <span>National Egypt Budget</span>
+        <a href="BUDGET-BOOKLET-IGV-EGYPT.pdf" target="_blank" class="ipad-open-btn"><i class="fa-solid fa-up-right-from-square"></i> Fullscreen</a>
+      </div>
+    </div>
+
+    <div class="ipad-frame hover-target">
+      <div class="ipad-camera"></div>
+      <object data="AAST-IN-CAIRO-FLYER-2.pdf" type="application/pdf" class="ipad-pdf-object">
+        <p>PDF preview unavailable. <a href="AAST-IN-CAIRO-FLYER-2.pdf">Download File</a></p>
+      </object>
+      <div class="ipad-footer-bar">
+        <span>AAST Cairo Flyer for campus campaigns</span>
+        <a href="AAST-IN-CAIRO-FLYER-2.pdf" target="_blank" class="ipad-open-btn"><i class="fa-solid fa-up-right-from-square"></i> Fullscreen</a>
+      </div>
+    </div>
+
+    <div class="ipad-frame hover-target">
+      <div class="ipad-camera"></div>
+      <object data="mea logos & elements 2025.pdf" type="application/pdf" class="ipad-pdf-object">
+        <p>PDF preview unavailable. <a href="mea logos & elements 2025.pdf">Download File</a></p>
+      </object>
+      <div class="ipad-footer-bar">
+        <span>MENA Region Conference Logo &amp; Elements proposal for 2025</span>
+        <a href="mea logos & elements 2025.pdf" target="_blank" class="ipad-open-btn"><i class="fa-solid fa-up-right-from-square"></i> Fullscreen</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div><div class="footer-brand">Portfolio</div><p class="footer-tagline">Visual craft for people who measure success in tenths of a second.</p></div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Navigate</h4><a href="index.html">Home</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div>
+        <div class="footer-col"><h4>Social</h4><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 Rehab. Designed with a love for blue &amp; Formula 1.</p><p>Cairo, Egypt</p></div>
+  </div>
+</footer>
+
+<script>
+// CURSOR LOGIC
+const cursorDot = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+const isFine = window.matchMedia('(pointer:fine)').matches;
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let ringX = mouseX, ringY = mouseY;
+
+if(isFine){
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.top = `${mouseY}px`; cursorDot.style.left = `${mouseX}px`;
+  });
+  function animateCursor(){
+    ringX += (mouseX - ringX) * 0.2; 
+    ringY += (mouseY - ringY) * 0.2; 
+    cursorRing.style.top = `${ringY}px`; 
+    cursorRing.style.left = `${ringX}px`; 
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('.hover-target, a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovered'));
+  });
+}
+
+// HEADER SCROLL
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('site-header');
+  if(window.scrollY > 60) header.classList.add('scrolled'); 
+  else header.classList.remove('scrolled');
+});
+
+// AURORA BACKGROUND LOGIC
+const auroraBg = document.getElementById('aurora-bg');
+const barCount = 28;
+const auroraColors = ["#ffffff", "#e3f2ff", "#9ccbff", "#3d8bfd", "#00000000"];
+const gradientStop = auroraColors.map((c, i) => `${c} ${Math.round((i / (auroraColors.length - 1)) * 100)}%`).join(", ");
+const auroraGradient = `linear-gradient(to top, ${gradientStop})`;
+
+for(let i=0; i<barCount; i++){
+  let wrapper = document.createElement('div');
+  wrapper.style.flex = "1"; wrapper.style.height = "100%"; wrapper.style.display = "flex"; wrapper.style.alignItems = "flex-end"; wrapper.style.padding = "0 1.5px";
+  let bar = document.createElement('div');
+  bar.className = 'aurora-bar';
+  bar.style.width = "100%"; bar.style.background = auroraGradient; bar.style.borderRadius = "9999px 9999px 0 0"; bar.style.opacity = "0.7"; bar.style.filter = "blur(4px)";
+  wrapper.appendChild(bar);
+  auroraBg.appendChild(wrapper);
+}
+
+function getBarHeight(index, total, time, minH, maxH) {
+  const norm = index / (total - 1);
+  const arch = Math.sin(norm * Math.PI);
+  const phase1 = (index / total) * Math.PI * 2;
+  const phase2 = (index / total) * Math.PI * 5.3;
+  const wave = 0.5 + 0.25 * Math.sin(time * 1.1 + phase1) + 0.25 * Math.sin(time * 0.7 + phase2);
+  const blended = arch * 0.65 + wave * 0.35;
+  return minH + blended * (maxH - minH);
+}
+
+let auroraTime = 0;
+function animateAurora() {
+  auroraTime += 0.008;
+  const bars = document.querySelectorAll('.aurora-bar');
+  bars.forEach((bar, i) => {
+    const h = getBarHeight(i, barCount, auroraTime, 0.18, 0.92);
+    bar.style.height = `${h * 100}%`;
+  });
+  requestAnimationFrame(animateAurora);
+}
+animateAurora();
+
+// HIEROGLYPHS INJECTION
+const hieroCanvas = document.createElement('div');
+hieroCanvas.id = 'hieroglyph-canvas';
+document.body.insertBefore(hieroCanvas, document.body.firstChild);
+const egyptianSymbols = ['𓂀', '𓋹', '𓆣', '𓇳', '▲', '◆', '𓊽', '𓃭'];
+for (let i = 0; i < 20; i++) {
+    const span = document.createElement('span');
+    span.className = 'floating-symbol';
+    span.innerText = egyptianSymbols[Math.floor(Math.random() * egyptianSymbols.length)];
+    span.style.left = `${Math.random() * 95}%`;
+    span.style.animationDuration = `${16 + Math.random() * 12}s`;
+    span.style.animationDelay = `${Math.random() * 8}s`;
+    hieroCanvas.appendChild(span);
+}
+
+// VIDEO PLAY/PAUSE & UNBLUR + AUDIO CONTROL LOGIC
+document.querySelectorAll('.video-wrapper').forEach(wrapper => {
+  const video = wrapper.querySelector('video');
+  const icon = wrapper.querySelector('.play-status-icon');
+  if (!video) return;
+
+  // Ensure audio is enabled and unmuted when user interacts
+  video.muted = false;
+
+  wrapper.addEventListener('click', () => {
+    // Pause all other videos on the page so audio doesn't overlap
+    document.querySelectorAll('.video-wrapper').forEach(otherWrapper => {
+      if (otherWrapper !== wrapper) {
+        const otherVideo = otherWrapper.querySelector('video');
+        const otherIcon = otherWrapper.querySelector('.play-status-icon');
+        if (otherVideo && !otherVideo.paused) {
+          otherVideo.pause();
+          otherWrapper.classList.remove('playing');
+          if (otherIcon) {
+            otherIcon.classList.remove('fa-pause');
+            otherIcon.classList.add('fa-play');
+          }
+        }
+      }
+    });
+
+    if (video.paused) {
+      video.play().then(() => {
+        wrapper.classList.add('playing');
+        if (icon) {
+          icon.classList.remove('fa-play');
+          icon.classList.add('fa-pause');
+        }
+      }).catch(err => {
+        console.error("Playback failed:", err);
+      });
+    } else {
+      video.pause();
+      wrapper.classList.remove('playing');
+      if (icon) {
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>
