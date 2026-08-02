@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Websites &amp; Events Showcase — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  /* Blue & Black Theme Variables */
+  --bg:#04060c; --bg-rgb:4,6,12;
+  --bg-card:#0b1220; --bg-card-2:#101b2e; --bg-alt:#070c16;
+  --blue:#3d8bfd; --blue-bright:#9ccbff; --blue-glow:rgba(61,139,253,0.35);
+  --ice-top:#5f7fa8; --ice-bottom:#e3f2ff;
+  --text:#e9f1fb; --muted:#7c8aa3; --border:#1b2740;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Albert Sans',sans-serif;
+  background: var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height: 100vh;
+}
+h1,h2,h3,h4{font-family:'Albert Sans',sans-serif;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1300px;margin:0 auto;padding:0 30px;position:relative;}
+::selection{background:var(--blue);color:#fff;}
+
+/* FLUID WAVE BACKGROUND CANVAS */
+#gradient-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* EGYPTIAN HIEROGLYPHS OVERLAY */
+#hieroglyph-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+.floating-symbol { position: absolute; color: var(--blue-bright); font-size: 2.2rem; opacity: 0.08; animation: driftUp 22s linear infinite; }
+@keyframes driftUp { 0% { transform: translateY(105vh) scale(0.8); opacity: 0; } 15% { opacity: 0.15; } 85% { opacity: 0.15; } 100% { transform: translateY(-10vh) scale(1.1); opacity: 0; } }
+
+/* CURSOR */
+.cursor-dot{width:8px;height:8px;background:#fff;position:fixed;border-radius:50%;pointer-events:none;z-index:100001;transform:translate(-50%,-50%);box-shadow:0 0 10px #fff;}
+.cursor-ring{width:38px;height:38px;border:2px solid var(--blue-bright);position:fixed;border-radius:50%;pointer-events:none;z-index:100000;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s,background-color .15s;}
+.cursor-ring.hovered{width:60px;height:60px;border-color:#fff;background:rgba(61,139,253,.15);box-shadow:0 0 20px var(--blue-glow);}
+
+/* NAV & TOP LINK */
+header{position:fixed;width:100%;top:0;z-index:10000;padding:24px 50px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom, rgba(var(--bg-rgb),.9), transparent);transition:.3s;border-bottom:1px solid transparent;}
+header.scrolled{background:rgba(var(--bg-rgb),.85);backdrop-filter:blur(10px);padding:15px 50px;border-bottom-color:var(--border);}
+.nav-brand{font-size:1.4rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:18px;}
+.back-home-link{font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;background:rgba(61,139,253,0.12);border:1px solid var(--blue);transition:all .3s ease;}
+.back-home-link:hover{background:var(--blue);color:#fff;box-shadow:0 0 15px var(--blue-glow);}
+.nav-links{display:flex;gap:38px;list-style:none;}
+.nav-links a{font-size:.92rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);opacity:.85;transition:.2s;}
+.nav-links a:hover{opacity:1;color:var(--blue-bright);}
+.nav-toggle{display:none;font-size:1.3rem;color:var(--text);background:none;border:none;}
+
+/* HERO SECTION */
+.hero-section {
+  position: relative; min-height: 48vh; padding-top: 140px; padding-bottom: 20px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(61, 139, 253, 0.1); border: 1px solid var(--blue);
+  padding: 6px 16px; border-radius: 20px; color: var(--blue-bright);
+  font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px;
+}
+
+.hero-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-side-logos {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* 3D Frameless Floating Tech Logos */
+.tech-floating-logo {
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  animation: float3D 5s ease-in-out infinite alternate;
+}
+
+.tech-floating-logo:nth-child(2) {
+  animation-delay: 1.8s;
+}
+
+.tech-floating-logo:nth-child(3) {
+  animation-delay: 3.2s;
+}
+
+.tech-floating-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 10px rgba(61, 139, 253, 0.25));
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
+  transform: rotateX(8deg) rotateY(-8deg) translateZ(0px);
+}
+
+.hero-side-logos.right .tech-floating-logo img {
+  transform: rotateX(8deg) rotateY(8deg) translateZ(0px);
+}
+
+.tech-floating-logo:hover img {
+  transform: translateY(-10px) scale(1.15) rotateX(0deg) rotateY(0deg) translateZ(20px);
+  filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 25px rgba(156, 203, 255, 0.8));
+}
+
+@keyframes float3D {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(3deg); }
+}
+
+.hero-main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-title { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 800; text-transform: uppercase; line-height: 1.1; }
+.grad-text { background: linear-gradient(135deg, #3d8bfd 0%, #9ccbff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-tagline { color: var(--muted); font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem; max-width: 680px; margin-top: 16px; }
+
+/* SHOWCASE SECTIONS */
+.showcase-container { padding: 40px 0 80px; position: relative; z-index: 10; }
+.section-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 35px; color: var(--blue-bright); display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+
+/* LAPTOP MOCKUP STYLING */
+.websites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 60px;
+  margin-bottom: 80px;
+  justify-items: center;
+}
+
+.laptop-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 390px;
+  perspective: 1000px;
+}
+
+.laptop-screen {
+  width: 100%;
+  height: 235px;
+  background: #000;
+  border-radius: 14px 14px 4px 4px;
+  border: 10px solid #1a2235;
+  border-bottom: 14px solid #1a2235;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.85), 0 0 25px rgba(61,139,253,0.15);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.laptop-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 5px;
+  background: #090c14;
+  border-radius: 0 0 5px 5px;
+  z-index: 10;
+}
+
+.laptop-display {
+  width: 100%;
+  height: 100%;
+  background: #070c16;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.laptop-display iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.scaled-frame-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.scaled-frame-container iframe {
+  width: 1280px;
+  height: 800px;
+  transform: scale(0.289);
+  transform-origin: 0 0;
+  border: none;
+  pointer-events: auto;
+}
+
+.laptop-display video.centered-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  background: #04060c;
+}
+
+.laptop-base {
+  width: 108%;
+  height: 14px;
+  background: linear-gradient(to bottom, #3a475e 0%, #151d2d 100%);
+  border-radius: 2px 2px 12px 12px;
+  position: relative;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+  margin-top: -2px;
+}
+
+.laptop-base::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #090c14;
+  border-radius: 0 0 4px 4px;
+}
+
+.laptop-info {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 6px;
+}
+
+.laptop-title {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.open-link-btn {
+  color: var(--blue-bright);
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.open-link-btn:hover { opacity: 0.8; }
+
+.laptop-wrapper:hover .laptop-screen {
+  transform: translateY(-6px) rotateX(2deg);
+  border-color: #2b3a54;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.95), 0 0 35px var(--blue-glow);
+}
+
+/* HORIZONTAL SCROLL FOR EVENTS MEDIA (OVERFLOW VISIBLE FOR POP-OUT) */
+.horizontal-scroll-container {
+  display: flex; gap: 35px; overflow-x: auto; overflow-y: visible; padding: 140px 10px 50px 10px;
+  margin-top: -100px;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  align-items: flex-end;
+}
+.horizontal-scroll-container::-webkit-scrollbar { height: 8px; }
+.horizontal-scroll-container::-webkit-scrollbar-track { background: var(--bg-card); border-radius: 10px; }
+.horizontal-scroll-container::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
+
+/* TABLET MOCKUP STYLING */
+.tablet-card {
+  flex: 0 0 auto;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scroll-snap-align: center;
+}
+
+.tablet-frame {
+  width: 100%;
+  height: 460px;
+  background: #000;
+  border-radius: 28px;
+  border: 14px solid #1a2235;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.85), 0 0 25px rgba(61,139,253,0.15);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+/* Tablet Camera Dot */
+.tablet-frame::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: #080c14;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: inset 0 0 3px rgba(255,255,255,0.2);
+}
+
+.tablet-screen-area {
+  width: 100%;
+  height: 100%;
+  background: #04060c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  border-radius: 14px;
+}
+
+.tablet-screen-area video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.tablet-card:hover .tablet-frame {
+  transform: translateY(-8px) scale(1.02);
+  border-color: #2b3a54;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.95), 0 0 30px var(--blue-glow);
+}
+
+.tablet-card:hover .tablet-screen-area video {
+  transform: scale(1.04);
+}
+
+.tablet-info {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 6px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* STAND STYLING FOR SIGNAGE */
+.signage-stand-card {
+  flex: 0 0 auto;
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scroll-snap-align: center;
+  margin-bottom: 10px;
+}
+
+.stand-frame {
+  width: 100%;
+  height: 420px;
+  background: #0b1220;
+  border: 8px solid transparent;
+  border-image: linear-gradient(135deg, #d1e5ff 0%, #7d9bbd 50%, #203147 100%) 1;
+  border-radius: 10px;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.9), 0 0 20px rgba(156,203,255,0.3);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.stand-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.stand-poles {
+  display: flex;
+  justify-content: space-between;
+  width: 65%;
+  height: 55px;
+  position: relative;
+  z-index: 1;
+  margin-top: 10px;
+}
+
+.stand-pole {
+  width: 12px;
+  height: 100%;
+  background: linear-gradient(to right, #4a6382 0%, #d1e5ff 50%, #7d9bbd 100%);
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(156,203,255,0.3);
+}
+
+.stand-base {
+  width: 85%;
+  height: 14px;
+  background: linear-gradient(to bottom, #d1e5ff 0%, #5f7fa8 50%, #203147 100%);
+  border-radius: 6px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.9), 0 0 15px rgba(156,203,255,0.3);
+  margin-top: -2px;
+}
+
+.stand-label {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 500;
+}
+
+.signage-stand-card:hover .stand-frame {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 55px rgba(0,0,0,0.95), 0 0 35px var(--blue-glow);
+}
+
+.signage-stand-card:hover .stand-frame img {
+  transform: scale(1.05);
+}
+
+/* ---------------------------------------------------- */
+/* FULLY DESIGNED ENVELOPE (UNCLIPPED HOVER POP-OUT) */
+/* ---------------------------------------------------- */
+.envelope-card {
+  flex: 0 0 auto;
+  width: 310px;
+  height: 440px;
+  position: relative;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  cursor: pointer;
+  overflow: visible;
+  z-index: 5;
+  transition: z-index 0.3s ease;
+}
+
+/* Outer Envelope Container */
+.envelope-body {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background: linear-gradient(160deg, #101c30 0%, #090e18 100%);
+  border: 1px solid var(--border);
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  overflow: visible;
+}
+
+/* Bottom Envelope Pocket Overlay */
+.envelope-body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(16, 28, 48, 0.95) 0%, rgba(9, 14, 24, 0.6) 100%);
+  border-radius: 0 0 16px 16px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Designed Top Flap */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 125px;
+  background: linear-gradient(180deg, #182842 0%, #101c30 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-bottom: 1px solid var(--border);
+  transform-origin: top;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+  z-index: 5;
+}
+
+/* Gold/Blue Wax Seal Badge */
+.envelope-seal {
+  position: absolute;
+  top: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #3d8bfd 0%, #101b2e 100%);
+  border: 1px solid var(--blue-bright);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.75rem;
+  box-shadow: 0 0 15px var(--blue-glow);
+  z-index: 6;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hidden Invitation Card */
+.invitation-card-pop {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  right: 16px;
+  height: 360px;
+  background: #0b1220;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+  opacity: 0;
+  transform: translateY(110px) scale(0.9);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  z-index: 2;
+}
+
+.invitation-card-pop img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.envelope-footer {
+  position: relative;
+  z-index: 7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--blue-bright);
+  font-weight: 600;
+}
+
+/* Hover: Open Envelope & Pop Unclipped Above Header */
+.envelope-card:hover {
+  z-index: 9999;
+}
+
+.envelope-card:hover .envelope-flap {
+  transform: rotateX(180deg);
+  background: #090e18;
+  z-index: 1;
+}
+
+.envelope-card:hover .envelope-seal {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.5);
+}
+
+.envelope-card:hover .invitation-card-pop {
+  opacity: 1;
+  transform: translateY(-135px) scale(1.02);
+  border-color: var(--blue-bright);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.95), 0 0 35px var(--blue-glow);
+  z-index: 10;
+}
+
+/* LIGHTBOX MODAL */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 12, 0.92);
+  backdrop-filter: blur(12px);
+  z-index: 200000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(61,139,253,0.4);
+  border: 1px solid var(--blue-bright);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.lightbox-close:hover { color: var(--blue-bright); }
+
+/* FOOTER */
+footer{padding:56px 0 28px;border-top:1px solid var(--border); background: var(--bg); position: relative; z-index: 10;}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;margin-bottom:36px;}
+.footer-brand{font-size:1.3rem;font-weight:800;text-transform:uppercase;}
+.footer-tagline{color:var(--muted);font-size:.88rem;margin-top:8px;max-width:300px;font-weight:300;}
+.footer-links{display:flex;gap:56px;flex-wrap:wrap;}
+.footer-col h4{font-size:.8rem;letter-spacing:2px;color:var(--blue-bright);margin-bottom:14px;text-transform:uppercase;}
+.footer-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:9px;transition:.2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;flex-wrap:wrap;gap:10px;}
+
+@media (max-width:900px){
+  *{cursor:auto;}
+  .cursor-dot,.cursor-ring{display:none;}
+  header{padding:18px 22px;}
+  .websites-grid { grid-template-columns: 1fr; }
+  .hero-header-wrapper { flex-direction: column; gap: 15px; }
+  .laptop-wrapper { max-width: 100%; }
+  .laptop-screen { height: 220px; }
+  .tablet-card { width: 270px; }
+  .tablet-frame { height: 390px; }
+  .signage-stand-card { width: 260px; }
+  .stand-frame { height: 360px; }
+  .envelope-card { width: 280px; }
+  .nav-links{position:fixed;top:0;right:0;height:100vh;width:250px;background:rgba(var(--bg-rgb),.98);flex-direction:column;justify-content:center;transform:translateX(100%);transition:transform .4s ease;border-left:1px solid var(--border);}
+  .nav-links.open{transform:translateX(0);}
+  .nav-toggle{display:block;z-index:1001;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Background Canvas for Gradient Shader Wave -->
+<canvas id="gradient-canvas"></canvas>
+
+<!-- Header -->
+<header id="site-header">
+  <div class="nav-brand">
+    <a href="index.html" class="back-home-link hover-target"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    PORTFOLIO
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" class="hover-target">Home</a></li>
+    <li><a href="index.html#specialties" class="hover-target">Specialties</a></li>
+    <li><a href="index.html#contact" class="hover-target">Contact</a></li>
+  </ul>
+  <button class="nav-toggle hover-target" id="nav-toggle" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+</header>
+
+<!-- Hero Section with Floating 3D Tech Logos -->
+<section class="hero-section">
+  <div class="hero-badge hover-target"><i class="fa-solid fa-laptop-code"></i> Digital Experiences &amp; Event Media</div>
+  
+  <div class="hero-header-wrapper">
+    <!-- Left Floating Logos -->
+    <div class="hero-side-logos left">
+      <div class="tech-floating-logo hover-target" title="GitHub">
+        <img src="Github-logo.png" alt="GitHub Logo">
+      </div>
+      <div class="tech-floating-logo hover-target" title="Canva">
+        <img src="Canva-logo.png" alt="Canva Logo">
+      </div>
+      <div class="tech-floating-logo hover-target" title="Visual Studio">
+        <img src="visual-studio-logo.png" alt="Visual Studio Logo">
+      </div>
+    </div>
+
+    <!-- Main Title -->
+    <div class="hero-main-content">
+      <h1 class="hero-title">Websites &amp; <span class="grad-text">Events</span></h1>
+    </div>
+
+    <!-- Right Floating Logos -->
+    <div class="hero-side-logos right">
+      <div class="tech-floating-logo hover-target" title="Photoshop">
+        <img src="graphic-header-1.png" alt="Photoshop Icon">
+      </div>
+      <div class="tech-floating-logo hover-target" title="Illustrator">
+        <img src="graphic-header-2.png" alt="Illustrator Icon">
+      </div>
+    </div>
+  </div>
+
+  <p class="hero-tagline">Interactive Web Applications, Digital E-Invitations, and Event Visual Identity Systems.</p>
+</section>
+
+<!-- Main Content Area -->
+<div class="container showcase-container">
+
+  <!-- WEBSITES IN LAPTOP MOCKUPS SECTION -->
+  <h3 class="section-title"><i class="fa-solid fa-laptop"></i> Websites: Events (Enagagement,etc) , Portfolios, Brands</h3>
+  <div class="websites-grid">
+    
+    <!-- Laptop 1: Live GitHub Pages Invitation -->
+    <div class="laptop-wrapper hover-target">
+      <div class="laptop-screen">
+        <div class="laptop-display">
+          <iframe src="https://re-einvite.github.io/mariam-bassel-eng-inv/" loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="laptop-base"></div>
+      <div class="laptop-info">
+        <span class="laptop-title">Mariam &amp; Bassel Digital Invitation</span>
+        <a href="https://re-einvite.github.io/mariam-bassel-eng-inv/" target="_blank" class="open-link-btn">Launch Live Site <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <!-- Laptop 2: Fitted Portfolio Website -->
+    <div class="laptop-wrapper hover-target">
+      <div class="laptop-screen">
+        <div class="laptop-display">
+          <div class="scaled-frame-container">
+            <iframe src="https://bassantahmed14-sketch.github.io/passant.ahmed-portfolio2026/" loading="lazy"></iframe>
+          </div>
+        </div>
+      </div>
+      <div class="laptop-base"></div>
+      <div class="laptop-info">
+        <span class="laptop-title">Passant Ahmed Portfolio (2026)</span>
+        <a href="https://bassantahmed14-sketch.github.io/passant.ahmed-portfolio2026/" target="_blank" class="open-link-btn">Launch Live Site <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+    </div>
+
+    <!-- Laptop 3: Centered Video Recording Showcase -->
+    <div class="laptop-wrapper hover-target">
+      <div class="laptop-screen" onclick="openLightbox('Fatis-website.mp4', true)">
+        <div class="laptop-display">
+          <video src="Fatis-website.mp4" class="centered-video" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="laptop-base"></div>
+      <div class="laptop-info">
+        <span class="laptop-title">Fati's Web Portal Showcase</span>
+        <span class="open-link-btn" onclick="openLightbox('Fatis-website.mp4', true)">Expand Fullscreen <i class="fa-solid fa-expand"></i></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EVENT VIDEO TEMPLATES SECTION IN TABLET MOCKUPS -->
+  <h3 class="section-title"><i class="fa-solid fa-tablet-screen-button"></i> Event &amp; E-Invites (Engagement , Wedding, Baby Shower, etc)</h3>
+  <div class="horizontal-scroll-container">
+    
+    <!-- e-invite-wedding.mp4 in Tablet Frame -->
+    <div class="tablet-card hover-target" onclick="openLightbox('e-invite-wedding.mp4', true)">
+      <div class="tablet-frame">
+        <div class="tablet-screen-area">
+          <video src="e-invite-wedding.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="tablet-info">
+        <span>E-Invite Wedding Motion</span>
+        <span class="open-link-btn"><i class="fa-solid fa-expand"></i></span>
+      </div>
+    </div>
+
+    <!-- cards-template-6.mp4 in Tablet Frame -->
+    <div class="tablet-card hover-target" onclick="openLightbox('cards-template-6.mp4', true)">
+      <div class="tablet-frame">
+        <div class="tablet-screen-area">
+          <video src="cards-template-6.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="tablet-info">
+        <span>Cards Template Motion</span>
+        <span class="open-link-btn"><i class="fa-solid fa-expand"></i></span>
+      </div>
+    </div>
+
+    <!-- entrance-poster-5.mp4 in Tablet Frame -->
+    <div class="tablet-card hover-target" onclick="openLightbox('entrance-poster-5.mp4', true)">
+      <div class="tablet-frame">
+        <div class="tablet-screen-area">
+          <video src="entrance-poster-5.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="tablet-info">
+        <span>Entrance Poster Motion</span>
+        <span class="open-link-btn"><i class="fa-solid fa-expand"></i></span>
+      </div>
+    </div>
+
+  </div>
+
+  <br><br>
+
+  <!-- EVENT SIGNAGE ON SEPARATED METALLIC STANDS SECTION -->
+  <h3 class="section-title"><i class="fa-solid fa-person-chalkboard"></i> Event Signage </h3>
+  <div class="horizontal-scroll-container">
+    
+    <!-- entrance-poster.png on Stand -->
+    <div class="signage-stand-card hover-target" onclick="openLightbox('entrance-poster.png', false)">
+      <div class="stand-frame">
+        <img src="entrance-poster.png" alt="Entrance Poster">
+      </div>
+      <div class="stand-poles">
+        <div class="stand-pole"></div>
+        <div class="stand-pole"></div>
+      </div>
+      <div class="stand-base"></div>
+      <div class="stand-label">Main Entrance Display Stand</div>
+    </div>
+
+    <!-- entrance-poster-1.png on Stand -->
+    <div class="signage-stand-card hover-target" onclick="openLightbox('entrance-poster-1.png', false)">
+      <div class="stand-frame">
+        <img src="entrance-poster-1.png" alt="Entrance Poster 1">
+      </div>
+      <div class="stand-poles">
+        <div class="stand-pole"></div>
+        <div class="stand-pole"></div>
+      </div>
+      <div class="stand-base"></div>
+      <div class="stand-label">Entrance Stand Design 01</div>
+    </div>
+
+    <!-- entrance-poster-2.png on Stand -->
+    <div class="signage-stand-card hover-target" onclick="openLightbox('entrance-poster-2.png', false)">
+      <div class="stand-frame">
+        <img src="entrance-poster-2.png" alt="Entrance Poster 2">
+      </div>
+      <div class="stand-poles">
+        <div class="stand-pole"></div>
+        <div class="stand-pole"></div>
+      </div>
+      <div class="stand-base"></div>
+      <div class="stand-label">Entrance Stand Design 02</div>
+    </div>
+
+  </div>
+
+  <br><br>
+
+  <!-- CLOSED ENVELOPES (INVITATIONS REVEALED ON HOVER) SECTION -->
+  <h3 class="section-title"><i class="fa-solid fa-envelope-open-text"></i> Event Invitations Cards</h3>
+  <div class="horizontal-scroll-container">
+    
+    <!-- invitations-1.png in Closed Envelope -->
+    <div class="envelope-card hover-target" onclick="openLightbox('invitations-1.png', false)">
+      <div class="invitation-card-pop">
+        <img src="invitations-1.png" alt="Invitations 1">
+      </div>
+      <div class="envelope-body">
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal"><i class="fa-solid fa-envelope"></i></div>
+        <div class="envelope-footer">
+          <span>Invitation Card 01</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- invitations-2.png in Closed Envelope -->
+    <div class="envelope-card hover-target" onclick="openLightbox('invitations-2.png', false)">
+      <div class="invitation-card-pop">
+        <img src="invitations-2.png" alt="Invitations 2">
+      </div>
+      <div class="envelope-body">
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal"><i class="fa-solid fa-envelope"></i></div>
+        <div class="envelope-footer">
+          <span>Invitation Card 02</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- invitations-3.png in Closed Envelope -->
+    <div class="envelope-card hover-target" onclick="openLightbox('invitations-3.png', false)">
+      <div class="invitation-card-pop">
+        <img src="invitations-3.png" alt="Invitations 3">
+      </div>
+      <div class="envelope-body">
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal"><i class="fa-solid fa-envelope"></i></div>
+        <div class="envelope-footer">
+          <span>Invitation Card 03</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- invitations-4.png in Closed Envelope -->
+    <div class="envelope-card hover-target" onclick="openLightbox('invitations-4.png', false)">
+      <div class="invitation-card-pop">
+        <img src="invitations-4.png" alt="Invitations 4">
+      </div>
+      <div class="envelope-body">
+        <div class="envelope-flap"></div>
+        <div class="envelope-seal"><i class="fa-solid fa-envelope"></i></div>
+        <div class="envelope-footer">
+          <span>Invitation Card 04</span>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Lightbox Modal -->
+<div class="lightbox-modal" id="lightbox-modal">
+  <i class="fa-solid fa-xmark lightbox-close" onclick="closeLightbox()"></i>
+  <div id="lightbox-container"></div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div><div class="footer-brand">Portfolio</div><p class="footer-tagline">Visual craft for people who measure success in tenths of a second.</p></div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Navigate</h4><a href="index.html">Home</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div>
+        <div class="footer-col"><h4>Social</h4><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 Rehab. Designed with a love for blue &amp; Formula 1.</p><p>Cairo, Egypt</p></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// HIEROGLYPHS INJECTION
+const hieroCanvas = document.createElement('div');
+hieroCanvas.id = 'hieroglyph-canvas';
+document.body.insertBefore(hieroCanvas, document.body.firstChild);
+const egyptianSymbols = ['𓂀', '𓋹', '𓆣', '𓇳', '▲', '◆', '𓊽', '𓃭'];
+for (let i = 0; i < 20; i++) {
+    const span = document.createElement('span');
+    span.className = 'floating-symbol';
+    span.innerText = egyptianSymbols[Math.floor(Math.random() * egyptianSymbols.length)];
+    span.style.left = `${Math.random() * 95}%`;
+    span.style.animationDuration = `${16 + Math.random() * 12}s`;
+    span.style.animationDelay = `${Math.random() * 8}s`;
+    hieroCanvas.appendChild(span);
+}
+
+// CURSOR LOGIC
+const cursorDot = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+const isFine = window.matchMedia('(pointer:fine)').matches;
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let ringX = mouseX, ringY = mouseY;
+
+if(isFine){
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.top = `${mouseY}px`; cursorDot.style.left = `${mouseX}px`;
+  });
+  function animateCursor(){
+    ringX += (mouseX - ringX) * 0.2; 
+    ringY += (mouseY - ringY) * 0.2; 
+    cursorRing.style.top = `${ringY}px`; 
+    cursorRing.style.left = `${ringX}px`; 
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('.hover-target, a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovered'));
+  });
+}
+
+// HEADER SCROLL
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('site-header');
+  if(window.scrollY > 60) header.classList.add('scrolled'); 
+  else header.classList.remove('scrolled');
+});
+
+// MOBILE NAV
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+if(navToggle){
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+
+// LIGHTBOX
+function openLightbox(src, isVideo) {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  if (isVideo) {
+    container.innerHTML = `<video src="${src}" class="lightbox-content" controls autoplay></video>`;
+  } else {
+    container.innerHTML = `<img src="${src}" class="lightbox-content" alt="Enlarged View">`;
+  }
+  modal.classList.add('active');
+}
+
+function closeLightbox() {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  modal.classList.remove('active');
+  container.innerHTML = '';
+}
+
+// THREE.JS FLUID GRADIENT WAVE SHADER
+(function(){
+  const canvas = document.getElementById('gradient-canvas');
+  if(!canvas || typeof THREE === 'undefined') return;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  const uniforms = {
+    u_time: { value: 0 },
+    u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+  };
+
+  const vertexShader = `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = vec4(position, 1.0);
+    }
+  `;
+
+  const fragmentShader = `
+    uniform float u_time;
+    uniform vec2 u_resolution;
+    varying vec2 vUv;
+
+    // Simplex Noise Functions
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
+
+    float snoise(vec2 v) {
+      const vec4 C = vec4(0.211324865405187, 0.366025403784439, -0.577350269189626, 0.024390243902439);
+      vec2 i  = floor(v + dot(v, C.yy) );
+      vec2 x0 = v -   i + dot(i, C.xx);
+      vec2 i1;
+      i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+      vec4 x12 = x0.xyxy + C.xxzz;
+      x12.xy -= i1;
+      i = mod289(i);
+      vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 )) + i.x + vec3(0.0, i1.x, 1.0 ));
+      vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
+      m = m*m ;
+      m = m*m ;
+      vec3 x = 2.0 * fract(p * C.www) - 1.0;
+      vec3 h = abs(x) - 0.5;
+      vec3 ox = floor(x + 0.5);
+      vec3 a0 = x - ox;
+      m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+      vec3 g;
+      g.x  = a0.x  * x0.x  + h.x  * x0.y;
+      g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+      return 130.0 * dot(m, g);
+    }
+
+    void main() {
+      vec2 st = gl_FragCoord.xy / u_resolution.xy;
+      float time = u_time * 0.18;
+      
+      float n1 = snoise(st * 2.5 + vec2(time * 0.2, time * 0.15));
+      float n2 = snoise(st * 4.0 - vec2(time * 0.3, time * 0.2));
+      
+      // Theme Palette: Deep Navy -> Electric Blue -> Cyan Glow -> Dark Void
+      vec3 c1 = vec3(0.015, 0.023, 0.047); // #04060c
+      vec3 c2 = vec3(0.0, 0.28, 0.67);    // #0047AB
+      vec3 c3 = vec3(0.24, 0.54, 0.99);   // #3d8bfd
+      vec3 c4 = vec3(0.22, 0.74, 0.97);   // #38BDF8
+
+      float mix1 = smoothstep(-0.5, 0.5, n1);
+      float mix2 = smoothstep(-0.3, 0.7, n2);
+
+      vec3 color = mix(c1, mix(c2, mix(c3, c4, mix2), mix1), mix1 * 0.85);
+      gl_FragColor = vec4(color, 0.85);
+    }
+  `;
+
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader,
+    fragmentShader,
+    transparent: true
+  });
+
+  const geometry = new THREE.PlaneGeometry(2, 2);
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+  });
+
+  function animate(t) {
+    uniforms.u_time.value = t * 0.001;
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+})();
+</script>
+</body>
+</html>
