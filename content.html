@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Creation &amp; Edits — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  /* Blue & Black Theme Variables */
+  --bg:#04060c; --bg-rgb:4,6,12;
+  --bg-card:#0b1220; --bg-card-2:#101b2e; --bg-alt:#070c16;
+  --blue:#3d8bfd; --blue-bright:#9ccbff; --blue-glow:rgba(61,139,253,0.35);
+  --ice-top:#5f7fa8; --ice-bottom:#e3f2ff;
+  --text:#e9f1fb; --muted:#7c8aa3; --border:#1b2740;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Albert Sans',sans-serif;
+  background: var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height: 100vh;
+}
+h1,h2,h3,h4{font-family:'Albert Sans',sans-serif;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1300px;margin:0 auto;padding:0 30px;position:relative;}
+::selection{background:var(--blue);color:#fff;}
+
+/* GRAVITY STARS BACKGROUND CANVAS */
+#gravity-stars-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* EGYPTIAN HIEROGLYPHS OVERLAY */
+#hieroglyph-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+.floating-symbol { position: absolute; color: var(--blue-bright); font-size: 2.2rem; opacity: 0.08; animation: driftUp 22s linear infinite; }
+@keyframes driftUp { 0% { transform: translateY(105vh) scale(0.8); opacity: 0; } 15% { opacity: 0.15; } 85% { opacity: 0.15; } 100% { transform: translateY(-10vh) scale(1.1); opacity: 0; } }
+
+/* CURSOR */
+.cursor-dot{width:8px;height:8px;background:#fff;position:fixed;border-radius:50%;pointer-events:none;z-index:100001;transform:translate(-50%,-50%);box-shadow:0 0 10px #fff;}
+.cursor-ring{width:38px;height:38px;border:2px solid var(--blue-bright);position:fixed;border-radius:50%;pointer-events:none;z-index:100000;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s,background-color .15s;}
+.cursor-ring.hovered{width:60px;height:60px;border-color:#fff;background:rgba(61,139,253,.15);box-shadow:0 0 20px var(--blue-glow);}
+
+/* NAV & TOP LINK */
+header{position:fixed;width:100%;top:0;z-index:10000;padding:24px 50px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom, rgba(var(--bg-rgb),.9), transparent);transition:.3s;border-bottom:1px solid transparent;}
+header.scrolled{background:rgba(var(--bg-rgb),.85);backdrop-filter:blur(10px);padding:15px 50px;border-bottom-color:var(--border);}
+.nav-brand{font-size:1.4rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:18px;}
+.back-home-link{font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;background:rgba(61,139,253,0.12);border:1px solid var(--blue);transition:all .3s ease;}
+.back-home-link:hover{background:var(--blue);color:#fff;box-shadow:0 0 15px var(--blue-glow);}
+.nav-links{display:flex;gap:38px;list-style:none;}
+.nav-links a{font-size:.92rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);opacity:.85;transition:.2s;}
+.nav-links a:hover{opacity:1;color:var(--blue-bright);}
+.nav-toggle{display:none;font-size:1.3rem;color:var(--text);background:none;border:none;}
+
+/* HERO SECTION */
+.hero-section {
+  position: relative; min-height: 40vh; padding-top: 140px; padding-bottom: 20px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(61, 139, 253, 0.1); border: 1px solid var(--blue);
+  padding: 6px 16px; border-radius: 20px; color: var(--blue-bright);
+  font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px;
+}
+
+.hero-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-side-logos {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* 3D Frameless Floating Tech Logos */
+.tech-floating-logo {
+  width: 60px;
+  height: 60px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  animation: float3D 5s ease-in-out infinite alternate;
+}
+
+.tech-floating-logo:nth-child(2) { animation-delay: 1.8s; }
+
+.tech-floating-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 10px rgba(61, 139, 253, 0.25));
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
+  transform: rotateX(8deg) rotateY(-8deg) translateZ(0px);
+}
+
+.hero-side-logos.right .tech-floating-logo img {
+  transform: rotateX(8deg) rotateY(8deg) translateZ(0px);
+}
+
+.tech-floating-logo:hover img {
+  transform: translateY(-10px) scale(1.15) rotateX(0deg) rotateY(0deg) translateZ(20px);
+  filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 25px rgba(156, 203, 255, 0.8));
+}
+
+@keyframes float3D {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-8px) rotate(3deg); }
+}
+
+.hero-main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-title { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 800; text-transform: uppercase; line-height: 1.1; }
+.grad-text { background: linear-gradient(135deg, #3d8bfd 0%, #9ccbff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-tagline { color: var(--muted); font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem; max-width: 680px; margin-top: 16px; }
+
+/* SHOWCASE CONTAINERS */
+.showcase-container { padding: 40px 0 80px; position: relative; z-index: 10; }
+.section-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; color: var(--blue-bright); display: flex; align-items: center; gap: 12px; }
+
+/* TOP FEATURED DUAL TABLET SECTION */
+.top-featured-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 70px;
+  flex-wrap: wrap;
+}
+
+.large-tablet-wrapper {
+  flex: 1 1 520px;
+  max-width: 620px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mini-tablet-wrapper {
+  flex: 0 1 380px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Tablet Frame Mockups */
+.tablet-frame {
+  width: 100%;
+  background: #000;
+  border-radius: 28px;
+  border: 14px solid #1a2235;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.85), 0 0 25px rgba(61,139,253,0.15);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+.large-tablet-wrapper .tablet-frame { height: 420px; }
+.mini-tablet-wrapper .tablet-frame { height: 320px; }
+
+.tablet-frame::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: #080c14;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: inset 0 0 3px rgba(255,255,255,0.2);
+}
+
+.tablet-screen-area {
+  width: 100%;
+  height: 100%;
+  background: #04060c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  border-radius: 14px;
+}
+
+.tablet-screen-area video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #04060c;
+  transition: transform 0.4s ease;
+}
+
+.tablet-frame:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: #2b3a54;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.95), 0 0 35px var(--blue-glow);
+}
+
+.tablet-info {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 6px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.open-link-btn {
+  color: var(--blue-bright);
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.open-link-btn:hover { opacity: 0.8; }
+
+/* SMARTPHONE REELS GRID (9:16) */
+.reels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 45px 35px;
+  justify-items: center;
+}
+
+.phone-card {
+  width: 100%;
+  max-width: 290px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Smartphone Frame Mockup */
+.phone-frame {
+  width: 100%;
+  height: 520px;
+  background: #000;
+  border-radius: 36px;
+  border: 12px solid #1a2235;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.85), 0 0 20px rgba(61,139,253,0.12);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+.phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 14px;
+  background: #090c14;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+.phone-screen-area {
+  width: 100%;
+  height: 100%;
+  background: #04060c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  border-radius: 24px;
+}
+
+.phone-screen-area video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.phone-card:hover .phone-frame {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--blue-bright);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.95), 0 0 30px var(--blue-glow);
+}
+
+.phone-card:hover .phone-screen-area video {
+  transform: scale(1.04);
+}
+
+.phone-info {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 6px;
+  font-size: 0.8rem;
+  color: var(--blue-bright);
+  font-weight: 600;
+}
+
+/* REEL DESCRIPTION TEXT BOX */
+.reel-description-box {
+  width: 100%;
+  margin-top: 10px;
+  background: rgba(11, 18, 32, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.5;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.reel-description-box p {
+  color: #c0d3f0;
+  font-weight: 300;
+}
+
+.phone-card:hover .reel-description-box,
+.large-tablet-wrapper:hover .reel-description-box,
+.mini-tablet-wrapper:hover .reel-description-box {
+  border-color: var(--blue);
+  box-shadow: 0 10px 25px rgba(61,139,253,0.25);
+}
+
+/* LIGHTBOX MODAL */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 12, 0.94);
+  backdrop-filter: blur(14px);
+  z-index: 200000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(61,139,253,0.4);
+  border: 1px solid var(--blue-bright);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.lightbox-close:hover { color: var(--blue-bright); }
+
+/* FOOTER */
+footer{padding:56px 0 28px;border-top:1px solid var(--border); background: var(--bg); position: relative; z-index: 10;}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;margin-bottom:36px;}
+.footer-brand{font-size:1.3rem;font-weight:800;text-transform:uppercase;}
+.footer-tagline{color:var(--muted);font-size:.88rem;margin-top:8px;max-width:300px;font-weight:300;}
+.footer-links{display:flex;gap:56px;flex-wrap:wrap;}
+.footer-col h4{font-size:.8rem;letter-spacing:2px;color:var(--blue-bright);margin-bottom:14px;text-transform:uppercase;}
+.footer-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:9px;transition:.2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;flex-wrap:wrap;gap:10px;}
+
+@media (max-width:900px){
+  *{cursor:auto;}
+  .cursor-dot,.cursor-ring{display:none;}
+  header{padding:18px 22px;}
+  .hero-header-wrapper { flex-direction: column; gap: 15px; }
+  .top-featured-grid { flex-direction: column; align-items: center; }
+  .large-tablet-wrapper, .mini-tablet-wrapper { width: 100%; max-width: 100%; }
+  .large-tablet-wrapper .tablet-frame { height: 320px; }
+  .mini-tablet-wrapper .tablet-frame { height: 260px; }
+  .phone-card { max-width: 100%; }
+  .phone-frame { height: 440px; }
+  .reels-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .nav-links{position:fixed;top:0;right:0;height:100vh;width:250px;background:rgba(var(--bg-rgb),.98);flex-direction:column;justify-content:center;transform:translateX(100%);transition:transform .4s ease;border-left:1px solid var(--border);}
+  .nav-links.open{transform:translateX(0);}
+  .nav-toggle{display:block;z-index:1001;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Custom Gravity Stars Canvas Background -->
+<canvas id="gravity-stars-canvas"></canvas>
+
+<!-- Header -->
+<header id="site-header">
+  <div class="nav-brand">
+    <a href="index.html" class="back-home-link hover-target"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    PORTFOLIO
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" class="hover-target">Home</a></li>
+    <li><a href="index.html#specialties" class="hover-target">Specialties</a></li>
+    <li><a href="index.html#contact" class="hover-target">Contact</a></li>
+  </ul>
+  <button class="nav-toggle hover-target" id="nav-toggle" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+</header>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-badge hover-target"><i class="fa-solid fa-film"></i> Short-Form Video &amp; Content Creation</div>
+  
+  <div class="hero-header-wrapper">
+    <!-- Left Floating Logos -->
+    <div class="hero-side-logos left">
+      <div class="tech-floating-logo hover-target" title="CapCut">
+        <img src="capcut-logo.png" alt="CapCut Logo">
+      </div>
+      <div class="tech-floating-logo hover-target" title="ElevenLabs">
+        <img src="eleven-labs.png" alt="ElevenLabs Logo">
+      </div>
+    </div>
+
+    <!-- Main Title -->
+    <div class="hero-main-content">
+      <h1 class="hero-title">Content <span class="grad-text">Creation</span></h1>
+    </div>
+
+    <!-- Right Floating Logos -->
+    <div class="hero-side-logos right">
+      <div class="tech-floating-logo hover-target" title="Canva">
+        <img src="Canva-logo.png" alt="Canva Logo">
+      </div>
+      <div class="tech-floating-logo hover-target" title="TikTok">
+        <img src="TikTok-logo.png" alt="TikTok Logo">
+      </div>
+    </div>
+  </div>
+
+  <p class="hero-tagline">High-Retention Edits, Campaign Reels, Brand Strategy Video Materials &amp; Motion Assets.</p>
+</section>
+
+<!-- Main Showcase Section -->
+<div class="container showcase-container">
+
+  <!-- TOP FEATURED DUAL TABLET SECTION -->
+  <h3 class="section-title"><i class="fa-solid fa-star"></i> Featured Tablet Video Displays</h3>
+  <div class="top-featured-grid">
+    
+    <!-- Large Tablet: Content Reel 11 -->
+    <div class="large-tablet-wrapper">
+      <div class="tablet-frame hover-target" onclick="openLightbox('content-reel-11.mp4')">
+        <div class="tablet-screen-area">
+          <video src="content-reel-11.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="tablet-info">
+        <span>Short form video (MEA region promorion for a a conference) </span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-11.mp4')">Expand Fullscreen <i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Featured campaign highlight focused on promoting a mea region conference that is was going to be heald in MEA.</p>
+      </div>
+    </div>
+
+    <!-- Minimized Tablet: Hassan Allam Tax Intro -->
+    <div class="mini-tablet-wrapper">
+      <div class="tablet-frame hover-target" onclick="openLightbox('hassan-allam-tax-intro.mp4')">
+        <div class="tablet-screen-area">
+          <video src="hassan-allam-tax-intro.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="tablet-info">
+        <span>Hassan Allam Tax Intro</span>
+        <span class="open-link-btn" onclick="openLightbox('hassan-allam-tax-intro.mp4')">Expand Fullscreen <i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Corporate intro video for Hassan Allam featuring sleek motion graphics and professional branding alignment.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- REELS GRID IN SMARTPHONE FRAMES -->
+  <h3 class="section-title"><i class="fa-solid fa-mobile-screen-button"></i>Reels: </h3>
+  <div class="reels-grid">
+    
+    <!-- Phone Reel 1 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-1.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-1.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 01</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-1.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about the coffee brand "بن العبد" using the backstory of umm kalhtoum designed on canva, voiceover done by me.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 2 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-2.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-2.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 02</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-2.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about the coffee brand "بن العبد" using the backstory origin of coffee beansdesigned on canva, voiceover done by elevenlabs ai.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 3 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-3.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-3.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 03</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-3.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about the toursim company that offers a trip of "عمره" , designed on capcut, voiceover done by elevenlabs ai.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 4 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-4.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-4.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 04</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-4.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel for a toursim company that offers trip to historic Cairo, designed on Capcut.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 5 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-5.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-5.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 05</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-5.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about outfit styling for a fashion brand , editing done on capcut.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 6 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-6.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-6.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 06</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-6.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about outfit styling for a bags brand , editing done on capcut.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 7 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-7.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-7.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 07</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-7.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about outfit styling for a fashion brand "winter edition" , editing done on capcut.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 8 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-8.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-8.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 08</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-8.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about a hoddie fashion brand , editing done on capcut.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 9 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-10.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-10.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 9</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-10.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about a resturant "علوش", editing done on capcut.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel: Adham Hossam Round 35 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('adham-hossam-round-35.MP4')">
+        <div class="phone-screen-area">
+          <video src="adham-hossam-round-35.MP4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 10</span>
+        <span class="open-link-btn" onclick="openLightbox('adham-hossam-round-35.MP4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Short-form video recap developed for Adham Hossam mentorship round 35.</p>
+      </div>
+    </div>
+
+    <!-- Phone Reel 12 -->
+    <div class="phone-card">
+      <div class="phone-frame hover-target" onclick="openLightbox('content-reel-12.mp4')">
+        <div class="phone-screen-area">
+          <video src="content-reel-12.mp4" autoplay muted loop playsinline></video>
+        </div>
+      </div>
+      <div class="phone-info">
+        <span>Content Reel 11</span>
+        <span class="open-link-btn" onclick="openLightbox('content-reel-12.mp4')"><i class="fa-solid fa-expand"></i></span>
+      </div>
+      <div class="reel-description-box">
+        <p>Reel about a resturant "علوش", editing done on capcut.</p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Lightbox Modal -->
+<div class="lightbox-modal" id="lightbox-modal">
+  <i class="fa-solid fa-xmark lightbox-close" onclick="closeLightbox()"></i>
+  <div id="lightbox-container"></div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div><div class="footer-brand">Portfolio</div><p class="footer-tagline">Visual craft for people who measure success in tenths of a second.</p></div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Navigate</h4><a href="index.html">Home</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div>
+        <div class="footer-col"><h4>Social</h4><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 Rehab. Designed with a love for blue &amp; Formula 1.</p><p>Cairo, Egypt</p></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// HIEROGLYPHS INJECTION
+const hieroCanvas = document.createElement('div');
+hieroCanvas.id = 'hieroglyph-canvas';
+document.body.insertBefore(hieroCanvas, document.body.firstChild);
+const egyptianSymbols = ['𓂀', '𓋹', '𓆣', '𓇳', '▲', '◆', '𓊽', '𓃭'];
+for (let i = 0; i < 20; i++) {
+    const span = document.createElement('span');
+    span.className = 'floating-symbol';
+    span.innerText = egyptianSymbols[Math.floor(Math.random() * egyptianSymbols.length)];
+    span.style.left = `${Math.random() * 95}%`;
+    span.style.animationDuration = `${16 + Math.random() * 12}s`;
+    span.style.animationDelay = `${Math.random() * 8}s`;
+    hieroCanvas.appendChild(span);
+}
+
+// CURSOR LOGIC
+const cursorDot = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+const isFine = window.matchMedia('(pointer:fine)').matches;
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let ringX = mouseX, ringY = mouseY;
+
+if(isFine){
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.top = `${mouseY}px`; cursorDot.style.left = `${mouseX}px`;
+  });
+  function animateCursor(){
+    ringX += (mouseX - ringX) * 0.2; 
+    ringY += (mouseY - ringY) * 0.2; 
+    cursorRing.style.top = `${ringY}px`; 
+    cursorRing.style.left = `${ringX}px`; 
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('.hover-target, a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovered'));
+  });
+}
+
+// HOVER-TO-UNMUTE AUDIO LOGIC WITH PLAY PROMISE HANDLING
+document.querySelectorAll('.tablet-frame, .phone-frame').forEach(container => {
+  const video = container.querySelector('video');
+  if (video) {
+    container.addEventListener('mouseenter', () => {
+      video.muted = false;
+      video.volume = 1.0;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback if browser blocks unmuted autoplay
+          video.muted = true;
+          video.play();
+        });
+      }
+    });
+    container.addEventListener('mouseleave', () => {
+      video.muted = true;
+      video.play().catch(() => {});
+    });
+  }
+});
+
+// HEADER SCROLL
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('site-header');
+  if(window.scrollY > 60) header.classList.add('scrolled'); 
+  else header.classList.remove('scrolled');
+});
+
+// MOBILE NAV
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+if(navToggle){
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+
+// LIGHTBOX
+function openLightbox(src) {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  container.innerHTML = `<video src="${src}" class="lightbox-content" controls autoplay></video>`;
+  modal.classList.add('active');
+}
+
+function closeLightbox() {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  modal.classList.remove('active');
+  container.innerHTML = '';
+}
+
+// GRAVITY STARS BACKGROUND CANVAS SHADER
+(function(){
+  const canvas = document.getElementById('gravity-stars-canvas');
+  if(!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particles = [];
+  const particleCount = 150;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let targetMouseX = width / 2;
+  let targetMouseY = height / 2;
+
+  window.addEventListener('mousemove', (e) => {
+    targetMouseX = e.clientX;
+    targetMouseY = e.clientY;
+  });
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 2 + 0.5;
+      this.vx = (Math.random() - 0.5) * 0.8;
+      this.vy = (Math.random() - 0.5) * 0.8;
+      this.baseAlpha = Math.random() * 0.7 + 0.2;
+      this.color = Math.random() > 0.4 ? '#9ccbff' : '#3d8bfd';
+    }
+    update() {
+      const dx = targetMouseX - this.x;
+      const dy = targetMouseY - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const forceRadius = 250;
+
+      if (dist < forceRadius) {
+        const force = (1 - dist / forceRadius) * 0.08;
+        this.vx += (dx / dist) * force;
+        this.vy += (dy / dist) * force;
+      }
+
+      this.x += this.vx;
+      this.y += this.vy;
+
+      this.vx *= 0.96;
+      this.vy *= 0.96;
+
+      if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+        this.reset();
+      }
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.baseAlpha;
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = this.color;
+      ctx.fill();
+      ctx.globalAlpha = 1.0;
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    const gradient = ctx.createRadialGradient(width/2, height/2, 100, width/2, height/2, Math.max(width, height));
+    gradient.addColorStop(0, '#070c16');
+    gradient.addColorStop(1, '#04060c');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
+</body>
+</html>

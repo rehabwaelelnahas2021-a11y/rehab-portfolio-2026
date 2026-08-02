@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mentoring &amp; Strategy Sessions — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  --bg:#04060c; --bg-rgb:4,6,12;
+  --bg-card:#0b1220; --border:#1b2740;
+  --blue:#3d8bfd; --blue-bright:#9ccbff; --blue-glow:rgba(61,139,253,0.35);
+  --text:#e9f1fb; --muted:#7c8aa3;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+html{scroll-behavior:smooth;}
+body{font-family:'Albert Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;min-height:100vh;}
+h1,h2,h3{font-family:'Albert Sans',sans-serif;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1300px;margin:0 auto;padding:0 30px;position:relative;}
+
+/* SIMPLIFIED WAVES BACKGROUND */
+.waves-container {position:fixed;inset:0;width:100vw;height:100vh;z-index:-2;pointer-events:auto;background:#04060c;overflow:hidden;}
+.waves-container canvas{display:block;width:100%;height:100%;opacity:0.8;}
+
+/* EGYPTIAN HIEROGLYPHS */
+#hieroglyph-canvas {position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:hidden;}
+.floating-symbol {position:absolute;color:var(--blue-bright);font-size:2.2rem;opacity:0.06;animation:driftUp 25s linear infinite;}
+@keyframes driftUp {0%{transform:translateY(105vh) scale(0.8);opacity:0;}10%{opacity:0.08;}90%{opacity:0.08;}100%{transform:translateY(-10vh) scale(1.1);opacity:0;}}
+
+/* CURSOR */
+.cursor-dot{width:8px;height:8px;background:#fff;position:fixed;border-radius:50%;pointer-events:none;z-index:100001;transform:translate(-50%,-50%);box-shadow:0 0 10px #fff;}
+.cursor-ring{width:38px;height:38px;border:2px solid var(--blue-bright);position:fixed;border-radius:50%;pointer-events:none;z-index:100000;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s,background-color .15s;}
+.cursor-ring.hovered{width:60px;height:60px;border-color:#fff;background:rgba(61,139,253,.15);box-shadow:0 0 20px var(--blue-glow);}
+
+/* NAV & BACK LINK */
+header{position:fixed;width:100%;top:0;z-index:10000;padding:24px 50px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom, rgba(var(--bg-rgb),0.9), transparent);transition:.3s;border-bottom:1px solid transparent;}
+header.scrolled{background:rgba(var(--bg-rgb),0.85);backdrop-filter:blur(10px);padding:15px 50px;border-bottom-color:var(--border);}
+.nav-brand{font-size:1.4rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:18px;}
+.back-home-link{font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;background:rgba(61,139,253,0.12);border:1px solid var(--blue);transition:all .3s ease;}
+.back-home-link:hover{background:var(--blue);color:#fff;box-shadow:0 0 15px var(--blue-glow);}
+.nav-links{display:flex;gap:38px;list-style:none;}
+.nav-links a{font-size:.92rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);opacity:0.85;transition:.2s;}
+.nav-links a:hover{opacity:1;color:var(--blue-bright);}
+.nav-toggle{display:none;font-size:1.3rem;color:var(--text);background:none;border:none;}
+
+/* HERO */
+.hero-section{position:relative;min-height:35vh;padding-top:140px;padding-bottom:20px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:10;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(61,139,253,0.1);border:1px solid var(--blue);padding:6px 16px;border-radius:20px;color:var(--blue-bright);font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px;}
+.hero-title{font-size:clamp(2.2rem,5vw,4rem);font-weight:800;text-transform:uppercase;line-height:1.1;}
+.grad-text{background:linear-gradient(135deg, #3d8bfd 0%, #9ccbff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-tagline{color:var(--muted);font-weight:300;text-transform:uppercase;letter-spacing:2px;font-size:1rem;max-width:720px;margin-top:16px;}
+
+/* TOP PHOTOS GALLERY BELOW HEADER/HERO */
+.top-photos-container {
+  padding: 20px 0 40px;
+  position: relative;
+  z-index: 11;
+}
+
+.mentoring-photos-grid{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+}
+
+.mentor-photo-card{
+  width:100%;
+  max-width:380px;
+  height:250px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 15px 35px rgba(0,0,0,0.85);
+  perspective: 1000px;
+  cursor:pointer;
+  position:relative;
+}
+
+.mentor-photo-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display: block;
+  transform: rotateX(6deg) rotateY(-6deg) translateZ(0px);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7));
+}
+
+.mentor-photo-card:hover img{
+  transform: translateY(-8px) scale(1.08) rotateX(0deg) rotateY(0deg) translateZ(15px);
+  filter: drop-shadow(0 20px 25px rgba(0,0,0,0.9)) drop-shadow(0 0 20px rgba(156,203,255,0.7));
+}
+
+.mentor-photo-overlay{
+  position:absolute;bottom:0;inset-x:0;
+  background:linear-gradient(to top, rgba(4,6,12,0.95) 0%, transparent 100%);
+  padding:15px 20px;font-size:0.85rem;font-weight:600;color:var(--blue-bright);
+  z-index:5;
+}
+
+/* MAIN CONTENT */
+.showcase-container{padding:20px 0 80px;position:relative;z-index:10;}
+.section-title{font-size:1.5rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:35px;color:var(--blue-bright);display:flex;align-items:center;gap:12px;}
+
+/* STRATEGY GRID */
+.strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:50px;justify-items:center;}
+.strategy-item-wrapper{display:flex;flex-direction:column;width:100%;max-width:420px;}
+
+/* LAPTOP MOCKUP */
+.laptop-wrapper{display:flex;flex-direction:column;align-items:center;position:relative;width:100%;perspective:1000px;}
+.laptop-screen{
+  width:100%;height:250px;background:#000;border-radius:14px 14px 4px 4px;
+  border:10px solid #1a2235;border-bottom:14px solid #1a2235;
+  box-shadow:0 15px 40px rgba(0,0,0,0.85), 0 0 25px rgba(61,139,253,0.15);
+  position:relative;overflow:hidden;transition:transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;cursor:pointer;
+}
+.laptop-screen::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:32px;height:5px;background:#090c14;border-radius:0 0 5px 5px;z-index:10;
+}
+.laptop-display{width:100%;height:100%;background:#04060c;position:relative;overflow:hidden;}
+.laptop-display iframe{width:100%;height:100%;border:none;}
+.laptop-base{
+  width:108%;height:14px;background:linear-gradient(to bottom, #3a475e 0%, #151d2d 100%);
+  border-radius:2px 2px 12px 12px;position:relative;box-shadow:0 12px 25px rgba(0,0,0,0.8);margin-top:-2px;
+}
+.laptop-base::after{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60px;height:4px;background:#090c14;border-radius:0 0 4px 4px;
+}
+.laptop-wrapper:hover .laptop-screen{
+  transform:translateY(-6px) rotateX(2deg);border-color:#2b3a54;
+  box-shadow:0 25px 50px rgba(0,0,0,0.95), 0 0 35px var(--blue-glow);
+}
+
+/* SUBTITLE CARD */
+.laptop-subtitle-section{
+  margin-top:18px;background:rgba(11,18,32,0.85);border:1px solid var(--border);border-radius:14px;
+  padding:18px 20px;display:flex;flex-direction:column;gap:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6);
+  transition:border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.strategy-item-wrapper:hover .laptop-subtitle-section{border-color:var(--blue);box-shadow:0 15px 35px rgba(61,139,253,0.25);}
+.subtitle-header{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.subtitle-title-group{display:flex;align-items:center;gap:10px;min-width:0;flex:1;}
+.subtitle-icon{
+  width:32px;height:32px;background:rgba(61,139,253,0.15);border:1px solid var(--blue);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--blue-bright);font-size:0.9rem;flex-shrink:0;
+}
+.subtitle-title{font-size:0.95rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.subtitle-badge{
+  font-size:0.7rem;font-weight:600;color:var(--blue-bright);background:rgba(61,139,253,0.12);
+  padding:4px 10px;border-radius:10px;border:1px solid var(--border);text-transform:uppercase;letter-spacing:1px;flex-shrink:0;white-space:nowrap;
+}
+.strategy-highlights{display:flex;flex-direction:column;gap:6px;}
+.highlight-item{display:flex;align-items:flex-start;gap:8px;font-size:0.84rem;color:#c0d3f0;}
+.highlight-item i{color:var(--blue-bright);margin-top:3px;font-size:0.75rem;}
+.subtitle-footer{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--border);}
+.action-btn{
+  display:inline-flex;align-items:center;gap:6px;color:var(--blue-bright);font-size:0.78rem;font-weight:600;
+  padding:6px 14px;border-radius:8px;background:rgba(61,139,253,0.1);border:1px solid var(--blue);transition:all 0.3s ease;cursor:pointer;
+}
+.action-btn:hover{background:var(--blue);color:#fff;box-shadow:0 0 15px var(--blue-glow);}
+
+/* LIGHTBOX */
+.lightbox-modal{
+  position:fixed;inset:0;background:rgba(4,6,12,0.94);backdrop-filter:blur(14px);z-index:200000;
+  display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;
+}
+.lightbox-modal.active{opacity:1;pointer-events:auto;}
+.lightbox-content{width:90vw;height:88vh;border-radius:12px;box-shadow:0 0 40px rgba(61,139,253,0.4);border:1px solid var(--blue-bright);}
+.lightbox-close{position:absolute;top:25px;right:35px;color:#fff;font-size:2rem;cursor:pointer;transition:color 0.2s;}
+.lightbox-close:hover{color:var(--blue-bright);}
+
+/* FOOTER */
+footer{padding:56px 0 28px;border-top:1px solid var(--border); background: var(--bg); position: relative; z-index: 10;}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;margin-bottom:36px;}
+.footer-brand{font-size:1.3rem;font-weight:800;text-transform:uppercase;}
+.footer-tagline{color:var(--muted);font-size:.88rem;margin-top:8px;max-width:300px;font-weight:300;}
+.footer-links{display:flex;gap:56px;flex-wrap:wrap;}
+.footer-col h4{font-size:.8rem;letter-spacing:2px;color:var(--blue-bright);margin-bottom:14px;text-transform:uppercase;}
+.footer-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:9px;transition:.2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;flex-wrap:wrap;gap:10px;}
+
+@media (max-width:900px){
+  *{cursor:auto;}
+  .cursor-dot,.cursor-ring{display:none;}
+  header{padding:18px 22px;}
+  .strategy-grid { grid-template-columns: 1fr; }
+  .strategy-item-wrapper { max-width: 100%; }
+  .nav-links{position:fixed;top:0;right:0;height:100vh;width:250px;background:rgba(var(--bg-rgb),.98);flex-direction:column;justify-content:center;transform:translateX(100%);transition:transform .4s ease;border-left:1px solid var(--border);}
+  .nav-links.open{transform:translateX(0);}
+  .nav-toggle{display:block;z-index:1001;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Interactive Waves Background Container -->
+<div class="waves-container" id="waves-container">
+  <canvas id="waves-canvas"></canvas>
+</div>
+
+<!-- Header -->
+<header id="site-header">
+  <div class="nav-brand">
+    <a href="index.html" class="back-home-link hover-target"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    PORTFOLIO
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" class="hover-target">Home</a></li>
+    <li><a href="index.html#specialties" class="hover-target">Specialties</a></li>
+    <li><a href="index.html#contact" class="hover-target">Contact</a></li>
+  </ul>
+  <button class="nav-toggle hover-target" id="nav-toggle" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+</header>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-badge hover-target"><i class="fa-solid fa-chalkboard-user"></i> Marketing &amp; Strategy Mentoring</div>
+  <h1 class="hero-title">Mentoring &amp; <span class="grad-text">Recaps</span></h1>
+  <p class="hero-tagline">Structured recaps, Curriculum Blueprints, Content Structuring &amp; Media Buying Frameworks.</p>
+</section>
+
+<!-- MENTORING PHOTOS GALLERY DIRECTLY BELOW THE HEADER/HERO -->
+<div class="container top-photos-container">
+  <div class="mentoring-photos-grid">
+    <div class="mentor-photo-card hover-target" onclick="openLightboxImage('adham-hossam-35-2.jpg')">
+      <img src="adham-hossam-35-2.jpg" alt="Adham Hossam Round 35 Session 2" onerror="this.onerror=null; this.src='https://picsum.photos/seed/adham1/380/250';">
+      <div class="mentor-photo-overlay">Adham Hossam — Round 35 Session 2</div>
+    </div>
+    <div class="mentor-photo-card hover-target" onclick="openLightboxImage('adham-hossam-round-35.jpg')">
+      <img src="adham-hossam-round-35.jpg" alt="Adham Hossam Round 35 Session" onerror="this.onerror=null; this.src='https://picsum.photos/seed/adham2/380/250';">
+      <div class="mentor-photo-overlay">Adham Hossam — Round 35 Mentoring</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Showcase Section -->
+<div class="container showcase-container">
+  <h3 class="section-title"><i class="fa-solid fa-folder-open"></i> Mentoring Curriculums &amp; Revisions</h3>
+  
+  <div class="strategy-grid">
+
+    <!-- Document 1: MKT-rehab-wael.pdf -->
+    <div class="strategy-item-wrapper">
+      <div class="laptop-wrapper hover-target" onclick="openPdfModal('MKT-rehab-wael.pdf')">
+        <div class="laptop-screen">
+          <div class="laptop-display">
+            <iframe src="MKT-rehab-wael.pdf#toolbar=0" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="laptop-subtitle-section">
+        <div class="subtitle-header">
+          <div class="subtitle-title-group">
+            <div class="subtitle-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="subtitle-title">Marketing Strategy &amp; Curriculum</div>
+          </div>
+          <span class="subtitle-badge">Mentoring</span>
+        </div>
+        <div class="strategy-highlights">
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Comprehensive marketing frameworks and trainee roadmap.</div>
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Practical execution tasks and campaign evaluation metrics.</div>
+        </div>
+        <div class="subtitle-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">PDF Document</span>
+          <div style="display:flex; gap:8px;">
+            <button class="action-btn" onclick="openPdfModal('MKT-rehab-wael.pdf')"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+            <a href="MKT-rehab-wael.pdf" download class="action-btn"><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document 2: revision-content-structure.pdf -->
+    <div class="strategy-item-wrapper">
+      <div class="laptop-wrapper hover-target" onclick="openPdfModal('revision-content-structure.pdf')">
+        <div class="laptop-screen">
+          <div class="laptop-display">
+            <iframe src="revision-content-structure.pdf#toolbar=0" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="laptop-subtitle-section">
+        <div class="subtitle-header">
+          <div class="subtitle-title-group">
+            <div class="subtitle-icon"><i class="fa-solid fa-file-lines"></i></div>
+            <div class="subtitle-title">Revision Structure &amp; Content </div>
+          </div>
+          <span class="subtitle-badge">Revision Materials</span>
+        </div>
+        <div class="strategy-highlights">
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Structured content frameworks.</div>
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Editorial guidelines and script alignment templates.</div>
+        </div>
+        <div class="subtitle-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">PDF Document</span>
+          <div style="display:flex; gap:8px;">
+            <button class="action-btn" onclick="openPdfModal('revision-content-structure.pdf')"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+            <a href="revision-content-structure.pdf" download class="action-btn"><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document 3: media-buying-revision.pdf -->
+    <div class="strategy-item-wrapper">
+      <div class="laptop-wrapper hover-target" onclick="openPdfModal('media-buying-revision.pdf')">
+        <div class="laptop-screen">
+          <div class="laptop-display">
+            <iframe src="media-buying-revision.pdf#toolbar=0" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="laptop-subtitle-section">
+        <div class="subtitle-header">
+          <div class="subtitle-title-group">
+            <div class="subtitle-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="subtitle-title">Media Buying Revision Guide</div>
+          </div>
+          <span class="subtitle-badge">Media Buying</span>
+        </div>
+        <div class="strategy-highlights">
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Ad account auditing checklists and budget scaling rules.</div>
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Performance troubleshooting and KPI optimization guides.</div>
+        </div>
+        <div class="subtitle-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">PDF Document</span>
+          <div style="display:flex; gap:8px;">
+            <button class="action-btn" onclick="openPdfModal('media-buying-revision.pdf')"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+            <a href="media-buying-revision.pdf" download class="action-btn"><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document 4: strategy-revision.pdf -->
+    <div class="strategy-item-wrapper">
+      <div class="laptop-wrapper hover-target" onclick="openPdfModal('strategy-revision.pdf')">
+        <div class="laptop-screen">
+          <div class="laptop-display">
+            <iframe src="strategy-revision.pdf#toolbar=0" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="laptop-subtitle-section">
+        <div class="subtitle-header">
+          <div class="subtitle-title-group">
+            <div class="subtitle-icon"><i class="fa-solid fa-book-open"></i></div>
+            <div class="subtitle-title">Structure Revision</div>
+          </div>
+          <span class="subtitle-badge">Structure</span>
+        </div>
+        <div class="strategy-highlights">
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Comprehensive program layout and milestone targets.</div>
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Core essential structure elements.</div>
+        </div>
+        <div class="subtitle-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">PDF Document</span>
+          <div style="display:flex; gap:8px;">
+            <button class="action-btn" onclick="openPdfModal('strategy-revision.pdf')"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+            <a href="strategy-revision.pdf" download class="action-btn"><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Lightbox Modal -->
+<div class="lightbox-modal" id="lightbox-modal">
+  <i class="fa-solid fa-xmark lightbox-close" onclick="closeModal()"></i>
+  <div id="lightbox-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:20px;"></div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div><div class="footer-brand">Portfolio</div><p class="footer-tagline">Visual craft for people who measure success in tenths of a second.</p></div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Navigate</h4><a href="index.html">Home</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div>
+        <div class="footer-col"><h4>Social</h4><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 Rehab. Designed with a love for blue &amp; Formula 1.</p><p>Cairo, Egypt</p></div>
+  </div>
+</footer>
+
+<script>
+// CURSOR LOGIC
+const cursorDot = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+const isFine = window.matchMedia('(pointer:fine)').matches;
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let ringX = mouseX, ringY = mouseY;
+
+if(isFine){
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.top = `${mouseY}px`; cursorDot.style.left = `${mouseX}px`;
+  });
+  function animateCursor(){
+    ringX += (mouseX - ringX) * 0.2; 
+    ringY += (mouseY - ringY) * 0.2; 
+    cursorRing.style.top = `${ringY}px`; 
+    cursorRing.style.left = `${ringX}px`; 
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('.hover-target, a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovered'));
+  });
+}
+
+// HEADER SCROLL
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('site-header');
+  if(window.scrollY > 60) header.classList.add('scrolled'); 
+  else header.classList.remove('scrolled');
+});
+
+// MOBILE NAV
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+if(navToggle){
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+
+// LIGHTBOX MODALS
+function openPdfModal(src) {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  container.innerHTML = `<iframe src="${src}" class="lightbox-content"></iframe>`;
+  modal.classList.add('active');
+}
+
+function openLightboxImage(src) {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  container.innerHTML = `<img src="${src}" class="lightbox-content" style="object-fit:contain;" alt="Enlarged Mentoring Photo">`;
+  modal.classList.add('active');
+}
+
+function closeModal() {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  modal.classList.remove('active');
+  container.innerHTML = '';
+}
+
+// SIMPLIFIED PERLIN NOISE & INTERACTIVE WAVES SCRIPT
+class Noise {
+    constructor(seed) {
+        this.p = new Uint8Array(512);
+        this.seed = seed > 0 && seed < 1 ? seed : Math.random();
+        this.grad3 = [
+            [1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0],
+            [1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1],
+            [0, 1, 1], [0, -1, 1], [0, 1, -1], [0, -1, -1]
+        ];
+        this.init(this.seed);
+    }
+    init(seed) {
+        let i, j, k;
+        let p = new Uint8Array(256);
+        for (i = 0; i < 256; i++) { p[i] = i; }
+        for (i = 0; i < 256; i++) {
+            j = Math.floor(seed * (i + 1)) % 256;
+            k = p[i]; p[i] = p[j]; p[j] = k;
+        }
+        for (i = 0; i < 512; i++) { this.p[i] = p[i & 255]; }
+    }
+    dot(g, x, y) { return g[0] * x + g[1] * y; }
+    perlin2(x, y) {
+        let X = Math.floor(x) & 255;
+        let Y = Math.floor(y) & 255;
+        x -= Math.floor(x); y -= Math.floor(y);
+        let fade = (t) => t * t * t * (t * (t * 6 - 15) + 10);
+        let u = fade(x), v = fade(y);
+        let p = this.p, grad3 = this.grad3;
+        let n00 = this.dot(grad3[p[X + p[Y]] % 12], x, y);
+        let n01 = this.dot(grad3[p[X + p[Y + 1]] % 12], x, y - 1);
+        let n10 = this.dot(grad3[p[X + 1 + p[Y]] % 12], x - 1, y);
+        let n11 = this.dot(grad3[p[X + 1 + p[Y + 1]] % 12], x - 1, y - 1);
+        let lerp = (a, b, x) => a + x * (b - a);
+        return lerp(lerp(n00, n10, u), lerp(n01, n11, u), v);
+    }
+}
+
+const animationConfig = {
+    GRID_X_GAP: 30,
+    GRID_Y_GAP: 60,
+    GRID_WIDTH_OFFSET: 100,
+    GRID_HEIGHT_OFFSET: 20,
+    WAVE_TIME_X_FACTOR: 0.008,
+    WAVE_NOISE_X_FACTOR: 0.001,
+    WAVE_TIME_Y_FACTOR: 0.003,
+    WAVE_NOISE_Y_FACTOR: 0.001,
+    WAVE_NOISE_MAGNITUDE: 8,
+    WAVE_AMPLITUDE_X: 20,
+    WAVE_AMPLITUDE_Y: 10,
+    MOUSE_INFLUENCE_RADIUS: 120,
+    MOUSE_FALLOFF_FACTOR: 0.001,
+    MOUSE_FORCE_FACTOR: 0.0003,
+    MOUSE_SMOOTHING_FACTOR: 0.08,
+    MAX_MOUSE_VELOCITY: 50,
+    TENSION_STRENGTH: 0.003,
+    FRICTION: 0.95,
+    CURSOR_DISPLACEMENT_STRENGTH: 1.5,
+    MAX_CURSOR_DISPLACEMENT: 60,
+};
+
+(function(){
+    const canvas = document.getElementById('waves-canvas');
+    const container = document.getElementById('waves-container');
+    if(!canvas || !container) return;
+    const ctx = canvas.getContext('2d');
+
+    const state = {
+        mouse: { x: -10, y: 0, lx: 0, ly: 0, sx: 0, sy: 0, v: 0, vs: 0, a: 0, set: false },
+        lines: [],
+        noise: new Noise(Math.random()),
+        bounding: null,
+        animationFrameId: null,
+        lineColor: '#3d8bfd'
+    };
+
+    const moved = (point, withCursorForce = true) => {
+        const coords = {
+            x: point.x + point.wave.x + (withCursorForce ? point.cursor.x : 0),
+            y: point.y + point.wave.y + (withCursorForce ? point.cursor.y : 0)
+        };
+        coords.x = Math.round(coords.x * 10) / 10;
+        coords.y = Math.round(coords.y * 10) / 10;
+        return coords;
+    };
+
+    const setSize = () => {
+        state.bounding = container.getBoundingClientRect();
+        canvas.width = state.bounding.width;
+        canvas.height = state.bounding.height;
+    };
+
+    const setLines = () => {
+        if (!state.bounding) return;
+        const { width, height } = state.bounding;
+        state.lines = [];
+        const { GRID_X_GAP, GRID_Y_GAP, GRID_WIDTH_OFFSET, GRID_HEIGHT_OFFSET } = animationConfig;
+        const oWidth = width + GRID_WIDTH_OFFSET;
+        const oHeight = height + GRID_HEIGHT_OFFSET;
+        const totalLines = Math.ceil(oWidth / GRID_X_GAP);
+        const totalPoints = Math.ceil(oHeight / GRID_Y_GAP);
+        const xStart = (width - GRID_X_GAP * totalLines) / 2;
+        const yStart = (height - GRID_Y_GAP * totalPoints) / 2;
+
+        for (let i = 0; i <= totalLines; i++) {
+            const points = [];
+            for (let j = 0; j <= totalPoints; j++) {
+                points.push({
+                    x: xStart + GRID_X_GAP * i,
+                    y: yStart + GRID_Y_GAP * j,
+                    wave: { x: 0, y: 0 },
+                    cursor: { x: 0, y: 0, vx: 0, vy: 0 }
+                });
+            }
+            state.lines.push(points);
+        }
+    };
+
+    const movePoints = (time) => {
+        const { lines, mouse, noise } = state;
+        const { 
+            WAVE_TIME_X_FACTOR, WAVE_NOISE_X_FACTOR, WAVE_TIME_Y_FACTOR, WAVE_NOISE_Y_FACTOR,
+            WAVE_NOISE_MAGNITUDE, WAVE_AMPLITUDE_X, WAVE_AMPLITUDE_Y, MOUSE_INFLUENCE_RADIUS,
+            MOUSE_FALLOFF_FACTOR, MOUSE_FORCE_FACTOR, TENSION_STRENGTH, FRICTION,
+            CURSOR_DISPLACEMENT_STRENGTH, MAX_CURSOR_DISPLACEMENT
+        } = animationConfig;
+
+        lines.forEach((points) => {
+            points.forEach((p) => {
+                const noiseInputX = (p.x + time * WAVE_TIME_X_FACTOR) * WAVE_NOISE_X_FACTOR;
+                const noiseInputY = (p.y + time * WAVE_TIME_Y_FACTOR) * WAVE_NOISE_Y_FACTOR;
+                const move = noise.perlin2(noiseInputX, noiseInputY) * WAVE_NOISE_MAGNITUDE;
+                p.wave.x = Math.cos(move) * WAVE_AMPLITUDE_X;
+                p.wave.y = Math.sin(move) * WAVE_AMPLITUDE_Y;
+
+                const dx = p.x - mouse.sx;
+                const dy = p.y - mouse.sy;
+                const d = Math.hypot(dx, dy);
+                const influenceRadius = Math.max(MOUSE_INFLUENCE_RADIUS, mouse.vs);
+
+                if (d < influenceRadius) {
+                    const falloff = 1 - d / influenceRadius;
+                    const force = Math.cos(d * MOUSE_FALLOFF_FACTOR) * falloff;
+                    const forceFactor = force * influenceRadius * mouse.vs * MOUSE_FORCE_FACTOR;
+                    p.cursor.vx += Math.cos(mouse.a) * forceFactor;
+                    p.cursor.vy += Math.sin(mouse.a) * forceFactor;
+                }
+
+                p.cursor.vx += (0 - p.cursor.x) * TENSION_STRENGTH;
+                p.cursor.vy += (0 - p.cursor.y) * TENSION_STRENGTH;
+                p.cursor.vx *= FRICTION;
+                p.cursor.vy *= FRICTION;
+                p.cursor.x += p.cursor.vx * CURSOR_DISPLACEMENT_STRENGTH;
+                p.cursor.y += p.cursor.vy * CURSOR_DISPLACEMENT_STRENGTH;
+                p.cursor.x = Math.min(MAX_CURSOR_DISPLACEMENT, Math.max(-MAX_CURSOR_DISPLACEMENT, p.cursor.x));
+                p.cursor.y = Math.min(MAX_CURSOR_DISPLACEMENT, Math.max(-MAX_CURSOR_DISPLACEMENT, p.cursor.y));
+            });
+        });
+    };
+
+    const drawLines = () => {
+        const { bounding, lines } = state;
+        if (!bounding) return;
+        ctx.clearRect(0, 0, bounding.width, bounding.height);
+        ctx.beginPath();
+        ctx.strokeStyle = state.lineColor;
+        ctx.lineWidth = 1;
+
+        lines.forEach((points) => {
+            let p1 = moved(points[0], false);
+            ctx.moveTo(p1.x, p1.y);
+            for (let i = 0; i < points.length - 1; i++) {
+                const currentPoint = moved(points[i], true);
+                const nextPoint = moved(points[i + 1], true);
+                const xc = (currentPoint.x + nextPoint.x) / 2;
+                const yc = (currentPoint.y + nextPoint.y) / 2;
+                ctx.quadraticCurveTo(currentPoint.x, currentPoint.y, xc, yc);
+            }
+        });
+        ctx.stroke();
+    };
+
+    const tick = (time) => {
+        const { mouse } = state;
+        const { MOUSE_SMOOTHING_FACTOR, MAX_MOUSE_VELOCITY } = animationConfig;
+
+        mouse.sx += (mouse.x - mouse.sx) * MOUSE_SMOOTHING_FACTOR;
+        mouse.sy += (mouse.y - mouse.sy) * MOUSE_SMOOTHING_FACTOR;
+
+        const dx = mouse.sx - mouse.lx;
+        const dy = mouse.sy - mouse.ly;
+        const d = Math.hypot(dx, dy);
+        
+        mouse.v = d;
+        mouse.vs += (d - mouse.vs) * MOUSE_SMOOTHING_FACTOR;
+        mouse.vs = Math.min(MAX_MOUSE_VELOCITY, mouse.vs);
+        mouse.a = Math.atan2(dy, dx);
+        
+        mouse.lx = mouse.sx;
+        mouse.ly = mouse.sy;
+
+        movePoints(time);
+        drawLines();
+
+        state.animationFrameId = requestAnimationFrame(tick);
+    };
+
+    const updateMousePosition = (x, y) => {
+        if (!state.bounding) return;
+        const { mouse } = state;
+        mouse.x = x - state.bounding.left;
+        mouse.y = y - state.bounding.top;
+        if (!mouse.set) {
+            mouse.sx = mouse.x; mouse.sy = mouse.y;
+            mouse.lx = mouse.x; mouse.ly = mouse.y;
+            mouse.set = true;
+        }
+    };
+
+    window.addEventListener("resize", () => { setSize(); setLines(); });
+    window.addEventListener("mousemove", (e) => { updateMousePosition(e.pageX, e.pageY); });
+    container.addEventListener("touchmove", (e) => {
+        e.preventDefault();
+        updateMousePosition(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: false });
+
+    setSize();
+    setLines();
+    state.animationFrameId = requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

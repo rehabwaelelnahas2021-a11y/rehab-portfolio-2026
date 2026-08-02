@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Buying &amp; Branding Strategies — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  /* Blue & Black Theme Variables */
+  --bg:#04060c; --bg-rgb:4,6,12;
+  --bg-card:#0b1220; --bg-card-2:#101b2e; --bg-alt:#070c16;
+  --blue:#3d8bfd; --blue-bright:#9ccbff; --blue-glow:rgba(61,139,253,0.35);
+  --ice-top:#5f7fa8; --ice-bottom:#e3f2ff;
+  --text:#e9f1fb; --muted:#7c8aa3; --border:#1b2740;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Albert Sans',sans-serif;
+  background: var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height: 100vh;
+}
+h1,h2,h3,h4{font-family:'Albert Sans',sans-serif;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1300px;margin:0 auto;padding:0 30px;position:relative;}
+::selection{background:var(--blue);color:#fff;}
+
+/* AURORA WAVE BACKGROUND ANIMATIONS */
+.aurora-bg-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  pointer-events: none;
+  background: #04060c;
+  overflow: hidden;
+}
+
+.aurora-wave-1 {
+  position: absolute; inset: 0; opacity: 0.55;
+  background: radial-gradient(ellipse 900px 650px at 50% 20%, rgba(61, 139, 253, 0.3) 0%, transparent 55%);
+  animation: aurora1 9s ease-in-out infinite alternate;
+}
+
+.aurora-wave-2 {
+  position: absolute; inset: 0; opacity: 0.45;
+  background: radial-gradient(ellipse 750px 450px at 80% 30%, rgba(156, 203, 255, 0.25) 0%, transparent 50%);
+  animation: aurora2 7s ease-in-out infinite alternate-reverse;
+}
+
+.aurora-wave-3 {
+  position: absolute; inset: 0; opacity: 0.35;
+  background: radial-gradient(ellipse 800px 550px at 20% 65%, rgba(0, 71, 171, 0.35) 0%, transparent 50%);
+  animation: aurora3 11s ease-in-out infinite alternate;
+}
+
+.aurora-wave-4 {
+  position: absolute; inset: 0; opacity: 0.25;
+  background: radial-gradient(ellipse 950px 350px at 60% 85%, rgba(56, 189, 248, 0.2) 0%, transparent 50%);
+  animation: aurora4 8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes aurora1 {
+  0% { transform: translateX(-80px) translateY(-40px) rotate(0deg) scale(1); }
+  50% { transform: translateX(40px) translateY(25px) rotate(180deg) scale(1.1); }
+  100% { transform: translateX(80px) translateY(-25px) rotate(360deg) scale(0.95); }
+}
+
+@keyframes aurora2 {
+  0% { transform: translateX(60px) translateY(30px) rotate(45deg) scale(0.85); }
+  50% { transform: translateX(-25px) translateY(-15px) rotate(225deg) scale(1.15); }
+  100% { transform: translateX(-60px) translateY(45px) rotate(405deg) scale(0.9); }
+}
+
+@keyframes aurora3 {
+  0% { transform: translateX(-40px) translateY(15px) rotate(90deg) scale(1.05); }
+  50% { transform: translateX(50px) translateY(-30px) rotate(270deg) scale(0.85); }
+  100% { transform: translateX(-15px) translateY(40px) rotate(450deg) scale(1.0); }
+}
+
+@keyframes aurora4 {
+  0% { transform: translateX(25px) translateY(-15px) rotate(135deg) scale(0.95); }
+  50% { transform: translateX(-45px) translateY(10px) rotate(315deg) scale(1.1); }
+  100% { transform: translateX(30px) translateY(-45px) rotate(495deg) scale(0.85); }
+}
+
+/* EGYPTIAN HIEROGLYPHS OVERLAY */
+#hieroglyph-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; overflow: hidden; }
+.floating-symbol { position: absolute; color: var(--blue-bright); font-size: 2.2rem; opacity: 0.08; animation: driftUp 22s linear infinite; }
+@keyframes driftUp { 0% { transform: translateY(105vh) scale(0.8); opacity: 0; } 15% { opacity: 0.15; } 85% { opacity: 0.15; } 100% { transform: translateY(-10vh) scale(1.1); opacity: 0; } }
+
+/* CURSOR */
+.cursor-dot{width:8px;height:8px;background:#fff;position:fixed;border-radius:50%;pointer-events:none;z-index:100001;transform:translate(-50%,-50%);box-shadow:0 0 10px #fff;}
+.cursor-ring{width:38px;height:38px;border:2px solid var(--blue-bright);position:fixed;border-radius:50%;pointer-events:none;z-index:100000;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s,background-color .15s;}
+.cursor-ring.hovered{width:60px;height:60px;border-color:#fff;background:rgba(61,139,253,.15);box-shadow:0 0 20px var(--blue-glow);}
+
+/* NAV & TOP LINK */
+header{position:fixed;width:100%;top:0;z-index:10000;padding:24px 50px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom, rgba(var(--bg-rgb),.9), transparent);transition:.3s;border-bottom:1px solid transparent;}
+header.scrolled{background:rgba(var(--bg-rgb),.85);backdrop-filter:blur(10px);padding:15px 50px;border-bottom-color:var(--border);}
+.nav-brand{font-size:1.4rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:18px;}
+.back-home-link{font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;background:rgba(61,139,253,0.12);border:1px solid var(--blue);transition:all .3s ease;}
+.back-home-link:hover{background:var(--blue);color:#fff;box-shadow:0 0 15px var(--blue-glow);}
+.nav-links{display:flex;gap:38px;list-style:none;}
+.nav-links a{font-size:.92rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);opacity:.85;transition:.2s;}
+.nav-links a:hover{opacity:1;color:var(--blue-bright);}
+.nav-toggle{display:none;font-size:1.3rem;color:var(--text);background:none;border:none;}
+
+/* HERO SECTION */
+.hero-section {
+  position: relative; min-height: 44vh; padding-top: 140px; padding-bottom: 20px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(61, 139, 253, 0.1); border: 1px solid var(--blue);
+  padding: 6px 16px; border-radius: 20px; color: var(--blue-bright);
+  font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px;
+}
+
+.hero-title { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 800; text-transform: uppercase; line-height: 1.1; }
+.grad-text { background: linear-gradient(135deg, #3d8bfd 0%, #9ccbff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-tagline { color: var(--muted); font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem; max-width: 720px; margin-top: 16px; }
+
+/* SHOWCASE CONTAINERS */
+.showcase-container { padding: 40px 0 80px; position: relative; z-index: 10; }
+.section-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 35px; color: var(--blue-bright); display: flex; align-items: center; gap: 12px; }
+
+/* STRATEGY GRID */
+.strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+  gap: 50px;
+  justify-items: center;
+}
+
+.strategy-item-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 480px;
+}
+
+/* SPECIFIC WIDER WRAPPER FOR AMERICAN SWEETS */
+.strategy-item-wrapper.wide-card {
+  max-width: 620px;
+}
+
+/* LAPTOP MOCKUP STYLING */
+.laptop-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  perspective: 1000px;
+}
+
+.laptop-screen {
+  width: 100%;
+  height: 290px;
+  background: #000;
+  border-radius: 14px 14px 4px 4px;
+  border: 10px solid #1a2235;
+  border-bottom: 14px solid #1a2235;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.85), 0 0 25px rgba(61,139,253,0.15);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+}
+
+.laptop-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 5px;
+  background: #090c14;
+  border-radius: 0 0 5px 5px;
+  z-index: 10;
+}
+
+.laptop-display {
+  width: 100%;
+  height: 100%;
+  background: #04060c;
+  position: relative;
+  overflow: hidden;
+}
+
+.laptop-display iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.laptop-base {
+  width: 108%;
+  height: 14px;
+  background: linear-gradient(to bottom, #3a475e 0%, #151d2d 100%);
+  border-radius: 2px 2px 12px 12px;
+  position: relative;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.8);
+  margin-top: -2px;
+}
+
+.laptop-base::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #090c14;
+  border-radius: 0 0 4px 4px;
+}
+
+.laptop-wrapper:hover .laptop-screen {
+  transform: translateY(-6px) rotateX(2deg);
+  border-color: #2b3a54;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.95), 0 0 35px var(--blue-glow);
+}
+
+/* SUBTITLE CONTENT BELOW LAPTOP */
+.laptop-subtitle-section {
+  margin-top: 18px;
+  background: rgba(11, 18, 32, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.strategy-item-wrapper:hover .laptop-subtitle-section {
+  border-color: var(--blue);
+  box-shadow: 0 15px 35px rgba(61,139,253,0.25);
+}
+
+.subtitle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.subtitle-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subtitle-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(61, 139, 253, 0.15);
+  border: 1px solid var(--blue);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue-bright);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.subtitle-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.subtitle-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--blue-bright);
+  background: rgba(61, 139, 253, 0.12);
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.strategy-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: #c0d3f0;
+}
+
+.highlight-item i {
+  color: var(--blue-bright);
+  margin-top: 3px;
+  font-size: 0.75rem;
+}
+
+.subtitle-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--blue-bright);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: rgba(61, 139, 253, 0.1);
+  border: 1px solid var(--blue);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 15px var(--blue-glow);
+}
+
+/* LIGHTBOX MODAL */
+.lightbox-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 12, 0.94);
+  backdrop-filter: blur(14px);
+  z-index: 200000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-content {
+  width: 90vw;
+  height: 88vh;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(61,139,253,0.4);
+  border: 1px solid var(--blue-bright);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.lightbox-close:hover { color: var(--blue-bright); }
+
+/* FOOTER */
+footer{padding:56px 0 28px;border-top:1px solid var(--border); background: var(--bg); position: relative; z-index: 10;}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;margin-bottom:36px;}
+.footer-brand{font-size:1.3rem;font-weight:800;text-transform:uppercase;}
+.footer-tagline{color:var(--muted);font-size:.88rem;margin-top:8px;max-width:300px;font-weight:300;}
+.footer-links{display:flex;gap:56px;flex-wrap:wrap;}
+.footer-col h4{font-size:.8rem;letter-spacing:2px;color:var(--blue-bright);margin-bottom:14px;text-transform:uppercase;}
+.footer-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:9px;transition:.2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;flex-wrap:wrap;gap:10px;}
+
+@media (max-width:900px){
+  *{cursor:auto;}
+  .cursor-dot,.cursor-ring{display:none;}
+  header{padding:18px 22px;}
+  .strategy-grid { grid-template-columns: 1fr; }
+  .strategy-item-wrapper, .strategy-item-wrapper.wide-card { max-width: 100%; }
+  .subtitle-title { white-space: normal; }
+  .nav-links{position:fixed;top:0;right:0;height:100vh;width:250px;background:rgba(var(--bg-rgb),.98);flex-direction:column;justify-content:center;transform:translateX(100%);transition:transform .4s ease;border-left:1px solid var(--border);}
+  .nav-links.open{transform:translateX(0);}
+  .nav-toggle{display:block;z-index:1001;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Theme-Customized Aurora Background -->
+<div class="aurora-bg-container">
+  <div class="aurora-wave-1"></div>
+  <div class="aurora-wave-2"></div>
+  <div class="aurora-wave-3"></div>
+  <div class="aurora-wave-4"></div>
+</div>
+
+<!-- Header -->
+<header id="site-header">
+  <div class="nav-brand">
+    <a href="index.html" class="back-home-link hover-target"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    PORTFOLIO
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" class="hover-target">Home</a></li>
+    <li><a href="index.html#specialties" class="hover-target">Specialties</a></li>
+    <li><a href="index.html#contact" class="hover-target">Contact</a></li>
+  </ul>
+  <button class="nav-toggle hover-target" id="nav-toggle" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+</header>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-badge hover-target"><i class="fa-solid fa-chart-pie"></i> Performance Media &amp; Brand Positioning</div>
+  <h1 class="hero-title">Media Buying &amp; <span class="grad-text">Branding</span></h1>
+  <p class="hero-tagline">Data-Driven Campaign Architectures, Voice of Customer Analyses, Content Strategies &amp; Performance Media Plans.</p>
+</section>
+
+<!-- Main Strategy Showcase Section -->
+<div class="container showcase-container">
+
+  <h3 class="section-title"><i class="fa-solid fa-folder-open"></i> Campaigns, Brand Strategies &amp; Content Plans</h3>
+  
+  <div class="strategy-grid">
+
+    <!-- Document 1: Multi-Brand Strategy (American Sweets / Moska / First Kids) - WIDER -->
+    <div class="strategy-item-wrapper wide-card">
+      <div class="laptop-wrapper hover-target" onclick="openPdfModal('Brand-stratgies-American-sweets-Moska-First-kids.pdf')">
+        <div class="laptop-screen">
+          <div class="laptop-display">
+            <iframe src="Brand-stratgies-American-sweets-Moska-First-kids.pdf#toolbar=0" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="laptop-subtitle-section">
+        <div class="subtitle-header">
+          <div class="subtitle-title-group">
+            <div class="subtitle-icon"><i class="fa-solid fa-store"></i></div>
+            <div class="subtitle-title">American Sweets, Moska &amp; First Kids</div>
+          </div>
+          <span class="subtitle-badge">E-commerce, Resturant, Clothing</span>
+        </div>
+        <div class="strategy-highlights">
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Multi-brand visual identity guidelines and content funnels.</div>
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Target demographic segmentation across confectionery and apparel.</div>
+        </div>
+        <div class="subtitle-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">PDF Strategy Deck</span>
+          <div style="display:flex; gap:8px;">
+            <button class="action-btn" onclick="openPdfModal('Brand-stratgies-American-sweets-Moska-First-kids.pdf')"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+            <a href="Brand-stratgies-American-sweets-Moska-First-kids.pdf" download class="action-btn"><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document 2: Autoline Strategy -->
+    <div class="strategy-item-wrapper">
+      <div class="laptop-wrapper hover-target" onclick="openPdfModal('Brand-stratgies-Autoline.pdf')">
+        <div class="laptop-screen">
+          <div class="laptop-display">
+            <iframe src="Brand-stratgies-Autoline.pdf#toolbar=0" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="laptop-subtitle-section">
+        <div class="subtitle-header">
+          <div class="subtitle-title-group">
+            <div class="subtitle-icon"><i class="fa-solid fa-car-side"></i></div>
+            <div class="subtitle-title">Autoline Brand Strategy</div>
+          </div>
+          <span class="subtitle-badge">Automotive</span>
+        </div>
+        <div class="strategy-highlights">
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Premium automotive positioning and brand narrative structure.</div>
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Customer journey mapping and lead-gen ad copy tactics.</div>
+        </div>
+        <div class="subtitle-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">PDF Strategy Deck</span>
+          <div style="display:flex; gap:8px;">
+            <button class="action-btn" onclick="openPdfModal('Brand-stratgies-Autoline.pdf')"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+            <a href="Brand-stratgies-Autoline.pdf" download class="action-btn"><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document 3: Tourism Ads Plan -->
+    <div class="strategy-item-wrapper">
+      <div class="laptop-wrapper hover-target" onclick="openLightbox('Ads-tourism-company.pdf')">
+        <div class="laptop-screen">
+          <div class="laptop-display">
+            <iframe src="Ads-tourism-company.pdf#toolbar=0" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="laptop-subtitle-section">
+        <div class="subtitle-header">
+          <div class="subtitle-title-group">
+            <div class="subtitle-icon"><i class="fa-solid fa-plane-departure"></i></div>
+            <div class="subtitle-title">Tourism Company Ad Strategy</div>
+          </div>
+          <span class="subtitle-badge">Travel</span>
+        </div>
+        <div class="strategy-highlights">
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Seasonal campaign pacing and budget distribution model.</div>
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> High-converting destination hooks and retargeting framework.</div>
+        </div>
+        <div class="subtitle-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">PDF Media Plan</span>
+          <div style="display:flex; gap:8px;">
+            <button class="action-btn" onclick="openPdfModal('Ads-tourism-company.pdf')"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+            <a href="Ads-tourism-company.pdf" download class="action-btn"><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Document 4: Voice of Customer Analysis -->
+    <div class="strategy-item-wrapper">
+      <div class="laptop-wrapper hover-target" onclick="openPdfModal('First-Voc.pdf')">
+        <div class="laptop-screen">
+          <div class="laptop-display">
+            <iframe src="First-Voc.pdf#toolbar=0" loading="lazy"></iframe>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+      <div class="laptop-subtitle-section">
+        <div class="subtitle-header">
+          <div class="subtitle-title-group">
+            <div class="subtitle-icon"><i class="fa-solid fa-comments"></i></div>
+            <div class="subtitle-title">First VOC</div>
+          </div>
+          <span class="subtitle-badge">Cosmetics</span>
+        </div>
+        <div class="strategy-highlights">
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Comprehensive audience sentiment and pain-point mapping.</div>
+          <div class="highlight-item"><i class="fa-solid fa-check"></i> Customer language patterns applied directly to ad copy writing.</div>
+        </div>
+        <div class="subtitle-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">PDF Research Report</span>
+          <div style="display:flex; gap:8px;">
+            <button class="action-btn" onclick="openPdfModal('First-Voc.pdf')"><i class="fa-solid fa-expand"></i> Fullscreen</button>
+            <a href="First-Voc.pdf" download class="action-btn"><i class="fa-solid fa-download"></i> Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Lightbox Modal -->
+<div class="lightbox-modal" id="lightbox-modal">
+  <i class="fa-solid fa-xmark lightbox-close" onclick="closePdfModal()"></i>
+  <div id="lightbox-container" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; padding:20px;"></div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div><div class="footer-brand">Portfolio</div><p class="footer-tagline">Visual craft for people who measure success in tenths of a second.</p></div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Navigate</h4><a href="index.html">Home</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div>
+        <div class="footer-col"><h4>Social</h4><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 Rehab. Designed with a love for blue &amp; Formula 1.</p><p>Cairo, Egypt</p></div>
+  </div>
+</footer>
+
+<script>
+// HIEROGLYPHS INJECTION
+const hieroCanvas = document.createElement('div');
+hieroCanvas.id = 'hieroglyph-canvas';
+document.body.insertBefore(hieroCanvas, document.body.firstChild);
+const egyptianSymbols = ['𓂀', '𓋹', '𓆣', '𓇳', '▲', '◆', '𓊽', '𓃭'];
+for (let i = 0; i < 20; i++) {
+    const span = document.createElement('span');
+    span.className = 'floating-symbol';
+    span.innerText = egyptianSymbols[Math.floor(Math.random() * egyptianSymbols.length)];
+    span.style.left = `${Math.random() * 95}%`;
+    span.style.animationDuration = `${16 + Math.random() * 12}s`;
+    span.style.animationDelay = `${Math.random() * 8}s`;
+    hieroCanvas.appendChild(span);
+}
+
+// CURSOR LOGIC
+const cursorDot = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+const isFine = window.matchMedia('(pointer:fine)').matches;
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let ringX = mouseX, ringY = mouseY;
+
+if(isFine){
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.top = `${mouseY}px`; cursorDot.style.left = `${mouseX}px`;
+  });
+  function animateCursor(){
+    ringX += (mouseX - ringX) * 0.2; 
+    ringY += (mouseY - ringY) * 0.2; 
+    cursorRing.style.top = `${ringY}px`; 
+    cursorRing.style.left = `${ringX}px`; 
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('.hover-target, a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovered'));
+  });
+}
+
+// HEADER SCROLL
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('site-header');
+  if(window.scrollY > 60) header.classList.add('scrolled'); 
+  else header.classList.remove('scrolled');
+});
+
+// MOBILE NAV
+const navToggle = document.getElementById('nav-toggle');
+const navLinks = document.getElementById('nav-links');
+if(navToggle){
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+}
+
+// FULLSCREEN PDF LIGHTBOX
+function openPdfModal(src) {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  container.innerHTML = `<iframe src="${src}" class="lightbox-content"></iframe>`;
+  modal.classList.add('active');
+}
+
+function closePdfModal() {
+  const modal = document.getElementById('lightbox-modal');
+  const container = document.getElementById('lightbox-container');
+  modal.classList.remove('active');
+  container.innerHTML = '';
+}
+</script>
+</body>
+</html>
