@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Graphic Showcase — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  /* Blue & Black Dark Theme Variables */
+  --bg:#04060c; --bg-rgb:4,6,12;
+  --bg-card:#0b1220; --bg-card-2:#101b2e; --bg-alt:#070c16;
+  --blue:#3d8bfd; --blue-bright:#9ccbff; --blue-glow:rgba(61,139,253,0.35);
+  --ice-top:#5f7fa8; --ice-bottom:#e3f2ff;
+  --text:#e9f1fb; --muted:#7c8aa3; --border:#1b2740;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;cursor:none;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Albert Sans',sans-serif;
+  background: var(--bg);
+  background: radial-gradient(ellipse at bottom, #070c16 0%, #04060c 100%);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  min-height: 100vh;
+}
+h1,h2,h3,h4{font-family:'Albert Sans',sans-serif;}
+a{text-decoration:none;color:inherit;}
+.container{max-width:1300px;margin:0 auto;padding:0 30px;position:relative;}
+::selection{background:var(--blue);color:#fff;}
+
+/* STARS BACKGROUND */
+.stars-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: #FFF;
+  border-radius: 50%;
+  animation: pulseStar linear infinite alternate;
+}
+
+@keyframes pulseStar {
+  0% { opacity: 0.1; transform: scale(0.8); }
+  100% { opacity: 0.85; transform: scale(1.2); }
+}
+
+/* CURSOR */
+.cursor-dot{width:8px;height:8px;background:#fff;position:fixed;border-radius:50%;pointer-events:none;z-index:100001;transform:translate(-50%,-50%);box-shadow:0 0 10px #fff;}
+.cursor-ring{width:38px;height:38px;border:2px solid var(--blue-bright);position:fixed;border-radius:50%;pointer-events:none;z-index:100000;transform:translate(-50%,-50%);transition:width .15s,height .15s,border-color .15s,background-color .15s;}
+.cursor-ring.hovered{width:60px;height:60px;border-color:#fff;background:rgba(61,139,253,.15);box-shadow:0 0 20px var(--blue-glow);}
+
+/* NAV & TOP LINK */
+header{position:fixed;width:100%;top:0;z-index:10000;padding:24px 50px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom, rgba(var(--bg-rgb),.9), transparent);transition:.3s;border-bottom:1px solid transparent;}
+header.scrolled{background:rgba(var(--bg-rgb),.85);backdrop-filter:blur(10px);padding:15px 50px;border-bottom-color:var(--border);}
+.nav-brand{font-size:1.4rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:18px;}
+.back-home-link{font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue-bright);display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;background:rgba(61,139,253,0.12);border:1px solid var(--blue);transition:all .3s ease;}
+.back-home-link:hover{background:var(--blue);color:#fff;box-shadow:0 0 15px var(--blue-glow);}
+.nav-links{display:flex;gap:38px;list-style:none;}
+.nav-links a{font-size:.92rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);opacity:.85;transition:.2s;}
+.nav-links a:hover{opacity:1;color:var(--blue-bright);}
+
+/* HERO SECTION WITH FRAMELESS 3D FLOATING AI LOGOS */
+.hero-section {
+  position: relative; min-height: 45vh; padding-top: 140px; padding-bottom: 20px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 10;
+}
+
+.hero-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero-side-logos {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* 3D Frameless Floating Effect */
+.ai-floating-logo {
+  width: 65px;
+  height: 65px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+  animation: float3D 5s ease-in-out infinite alternate;
+}
+
+.ai-floating-logo:nth-child(2) {
+  animation-delay: 2.5s;
+}
+
+.ai-floating-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 14px;
+  filter: drop-shadow(0 15px 20px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 12px rgba(61, 139, 253, 0.25));
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease;
+  transform: rotateX(8deg) rotateY(-8deg) translateZ(0px);
+}
+
+.ai-side-logos.right .ai-floating-logo img {
+  transform: rotateX(8deg) rotateY(8deg) translateZ(0px);
+}
+
+.ai-floating-logo:hover img {
+  transform: translateY(-12px) scale(1.15) rotateX(0deg) rotateY(0deg) translateZ(20px);
+  filter: drop-shadow(0 25px 30px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 25px rgba(156, 203, 255, 0.8));
+}
+
+@keyframes float3D {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-10px) rotate(3deg); }
+}
+
+.hero-main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ai-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(61, 139, 253, 0.1); border: 1px solid var(--blue);
+  padding: 6px 16px; border-radius: 20px; color: var(--blue-bright);
+  font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px;
+}
+
+.hero-title { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 800; text-transform: uppercase; line-height: 1.1; }
+.grad-text { background: linear-gradient(135deg, #3d8bfd 0%, #9ccbff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-tagline { color: var(--muted); font-weight: 300; text-transform: uppercase; letter-spacing: 2px; font-size: 1rem; max-width: 650px; margin-top: 16px; }
+
+/* SHOWCASE CONTAINER & HORIZONTAL SCROLL */
+.showcase-container { padding: 40px 0 60px; position: relative; z-index: 10; }
+.section-title { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; color: var(--blue-bright); display: flex; align-items: center; gap: 12px; }
+
+.horizontal-scroll-container {
+  display: flex; gap: 35px; overflow-x: auto; padding: 20px 10px 40px 10px;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  align-items: center;
+}
+.horizontal-scroll-container::-webkit-scrollbar { height: 8px; }
+.horizontal-scroll-container::-webkit-scrollbar-track { background: var(--bg-card); border-radius: 10px; }
+.horizontal-scroll-container::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
+
+/* AI CHAT FRAME STYLING (IMAGES) */
+.ai-chat-frame {
+  flex: 0 0 auto;
+  width: 380px;
+  height: 520px;
+  background: #0b1220;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.85), 0 0 15px rgba(61,139,253,0.15);
+  overflow: hidden;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.ai-chat-frame:hover {
+  transform: translateY(-8px);
+  border-color: var(--blue-bright);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.95), 0 0 30px var(--blue-glow);
+}
+
+.ai-header {
+  background: #101b2e;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+
+.ai-model-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--blue-bright);
+}
+
+.ai-status-tag {
+  font-size: 0.65rem;
+  background: rgba(39, 201, 63, 0.15);
+  color: #27c93f;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(39, 201, 63, 0.3);
+}
+
+.ai-chat-body {
+  flex: 1;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #070c16;
+  overflow: hidden;
+}
+
+.user-prompt-bubble {
+  align-self: flex-end;
+  background: #1b2740;
+  color: var(--text);
+  font-size: 0.75rem;
+  padding: 8px 12px;
+  border-radius: 12px 12px 2px 12px;
+  max-width: 85%;
+  border: 1px solid rgba(61, 139, 253, 0.2);
+}
+
+.ai-response-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #04060c;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+
+.ai-response-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.ai-input-bar {
+  background: #101b2e;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-input-field {
+  flex: 1;
+  background: #070c16;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 12px;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.ai-send-btn {
+  color: var(--blue-bright);
+  font-size: 0.85rem;
+  padding: 4px;
+}
+
+/* EXPANDED PDF SECTION AT THE BOTTOM */
+.pdf-section {
+  padding: 40px 0 100px;
+  border-top: 1px solid var(--border);
+  background: rgba(4, 6, 12, 0.6);
+  position: relative;
+  z-index: 10;
+}
+
+.pdf-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  padding: 20px 0 30px;
+}
+
+.pdf-card {
+  width: 100%;
+  max-width: 900px;
+  height: 600px;
+  background: #0b1220;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.85);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.pdf-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--blue-bright);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.95), 0 0 25px var(--blue-glow);
+}
+
+.pdf-card-header {
+  background: #101b2e;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.pdf-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--blue-bright);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pdf-card-body {
+  flex: 1;
+  background: #121212;
+}
+
+.pdf-embed-object {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.pdf-card-footer {
+  background: #070c16;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+
+.pdf-action-link {
+  color: var(--blue-bright);
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.2s;
+}
+
+.pdf-action-link:hover {
+  opacity: 0.8;
+}
+
+/* FOOTER */
+footer{padding:56px 0 28px;border-top:1px solid var(--border); background: var(--bg); position: relative; z-index: 10;}
+.footer-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;margin-bottom:36px;}
+.footer-brand{font-size:1.3rem;font-weight:800;text-transform:uppercase;}
+.footer-tagline{color:var(--muted);font-size:.88rem;margin-top:8px;max-width:300px;font-weight:300;}
+.footer-links{display:flex;gap:56px;flex-wrap:wrap;}
+.footer-col h4{font-size:.8rem;letter-spacing:2px;color:var(--blue-bright);margin-bottom:14px;text-transform:uppercase;}
+.footer-col a{display:block;color:var(--muted);font-size:.88rem;margin-bottom:9px;transition:.2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{display:flex;justify-content:space-between;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;flex-wrap:wrap;gap:10px;}
+
+@media (max-width:900px){
+  *{cursor:auto;}
+  .cursor-dot,.cursor-ring{display:none;}
+  header{padding:18px 22px;}
+  .ai-chat-frame { width: 300px; height: 430px; }
+  .pdf-card { height: 450px; }
+  .hero-header-wrapper { flex-direction: column; gap: 20px; }
+  .ai-floating-logo { width: 52px; height: 52px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- Custom Star Field Background -->
+<div class="stars-container" id="stars-container"></div>
+
+<!-- Header -->
+<header id="site-header">
+  <div class="nav-brand">
+    <a href="index.html" class="back-home-link hover-target"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    PORTFOLIO
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html" class="hover-target">Home</a></li>
+    <li><a href="index.html#specialties" class="hover-target">Specialties</a></li>
+    <li><a href="index.html#contact" class="hover-target">Contact</a></li>
+  </ul>
+</header>
+
+<!-- Hero Section with AI Model Logos Floated Left & Right -->
+<section class="hero-section">
+  <div class="ai-badge hover-target"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generation Materials</div>
+  
+  <div class="hero-header-wrapper">
+    <!-- 2 Logos Left -->
+    <div class="hero-side-logos left">
+      <div class="ai-floating-logo hover-target" title="ChatGPT">
+        <img src="chatgbt-logo.jpg" alt="ChatGPT Logo">
+      </div>
+      <div class="ai-floating-logo hover-target" title="Claude">
+        <img src="Claude-logo.jpg" alt="Claude Logo">
+      </div>
+    </div>
+
+    <!-- Main Title -->
+    <div class="hero-main-content">
+      <h1 class="hero-title">AI Graphic <span class="grad-text">Showcase</span></h1>
+    </div>
+
+    <!-- 2 Logos Right -->
+    <div class="hero-side-logos right">
+      <div class="ai-floating-logo hover-target" title="Magnific AI">
+        <img src="magnific-logo.jpg" alt="Magnific Logo">
+      </div>
+      <div class="ai-floating-logo hover-target" title="Gemini">
+        <img src="gemini-logo.jpg" alt="Gemini Logo">
+      </div>
+    </div>
+  </div>
+
+  <p class="hero-tagline">Generative Visuals, AI geenrated stories, posts,images and rebranding proposals.</p>
+</section>
+
+<!-- Main AI Image Showcase -->
+<div class="container showcase-container">
+  <h3 class="section-title"><i class="fa-solid fa-robot"></i> AI Generative images, stories, campaigns, posts </h3>
+  <div class="horizontal-scroll-container">
+    
+    <!-- ai-graphic-design-1.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate concept graphic for modern digital brand --v 6.0</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-1.jpg" alt="AI Graphic Design 1">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-1.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-design-2.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/render blue aesthetic abstract composition</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-2.jpg" alt="AI Graphic Design 2">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-2.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-design-3.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/imagine dark theme neon fluid layout --ar 4:5</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-3.jpg" alt="AI Graphic Design 3">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-3.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-design-4.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate sleek futuristic UI element</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-4.jpg" alt="AI Graphic Design 4">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-4.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-design-5.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/create minimalist dark geometric pattern</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-5.jpg" alt="AI Graphic Design 5">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-5.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-design-6.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/render cybernetic visual Identity mockup</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-6.jpg" alt="AI Graphic Design 6">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-6.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-design-7.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate high-contrast blue glow poster art</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-7.jpg" alt="AI Graphic Design 7">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-7.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-design-8.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/imagine dark aesthetic editorial graphic</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-8.jpg" alt="AI Graphic Design 8">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-8.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-design-9.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate final AI campaign artwork --v 6.0</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-design-9.jpg" alt="AI Graphic Design 9">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-design-9.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- Mockups-white-sky.png -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/render white sky visual branding mockup</div>
+        <div class="ai-response-container">
+          <img src="Mockups-white-sky.png" alt="Mockups White Sky">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">Mockups-white-sky.png generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- mockups-blue-sky.png -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/render blue sky atmospheric mockup concept</div>
+        <div class="ai-response-container">
+          <img src="mockups-blue-sky.png" alt="Mockups Blue Sky">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">mockups-blue-sky.png generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-3.png -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 03</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-3.png" alt="AI Graphic 3">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-3.png generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-4.png -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 04</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-4.png" alt="AI Graphic 4">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-4.png generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-5.png -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 05</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-5.png" alt="AI Graphic 5">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-5.png generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-6.png -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 06</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-6.png" alt="AI Graphic 6">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-6.png generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-7.png -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 07</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-7.png" alt="AI Graphic  7">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-7.png generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-10.png -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 10</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-10.png" alt="AI Graphic 10">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-10.png generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-11.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 11</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-11.jpg" alt="AI Graphic 11">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-11.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-12.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate  AI composition 12</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-12.jpg" alt="AI Graphic 12">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-12.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-13.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 13</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-13.jpg" alt="AI Graphic 13">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-13.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+    <!-- ai-graphic-extra-14.jpg -->
+    <div class="ai-chat-frame hover-target">
+      <div class="ai-header">
+        <div class="ai-model-info"><i class="fa-solid fa-sparkles"></i> AI Assistant</div>
+        <div class="ai-status-tag">Completed</div>
+      </div>
+      <div class="ai-chat-body">
+        <div class="user-prompt-bubble">/generate AI composition 14</div>
+        <div class="ai-response-container">
+          <img src="ai-graphic-extra-14.jpg" alt="AI Graphic 14">
+        </div>
+      </div>
+      <div class="ai-input-bar">
+        <div class="ai-input-field">ai-graphic-14.jpg generated...</div>
+        <i class="fa-solid fa-paper-plane ai-send-btn"></i>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Bottom PDF Section -->
+<section class="pdf-section">
+  <div class="container">
+    <h3 class="section-title"><i class="fa-solid fa-file-pdf"></i> Proposal rebranding and posts for tourism companies, shoes, coffee, food.</h3>
+    
+    <div class="pdf-grid">
+      
+      <!-- PDF 1: 4025-workshop.pdf -->
+      <div class="pdf-card hover-target">
+        <div class="pdf-card-header">
+          <div class="pdf-card-title"><i class="fa-solid fa-book-open"></i> 4025-workshop.pdf</div>
+          <span class="ai-status-tag">AI Workshop Document</span>
+        </div>
+        <div class="pdf-card-body">
+          <object data="4025-workshop.pdf" type="application/pdf" class="pdf-embed-object">
+            <p style="color: #fff; font-size: 0.85rem; text-align: center; padding: 40px;">
+              PDF Preview unavailable on this browser.<br><br>
+              <a href="4025-workshop.pdf" target="_blank" style="color: var(--blue-bright);">Click here to download/view the document</a>
+            </p>
+          </object>
+        </div>
+        <div class="pdf-card-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">Format: Interactive Vector PDF</span>
+          <a href="4025-workshop.pdf" target="_blank" class="pdf-action-link">
+            Open Fullscreen <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- PDF 2: social-graphic-ai.pdf -->
+      <div class="pdf-card hover-target">
+        <div class="pdf-card-header">
+          <div class="pdf-card-title"><i class="fa-solid fa-share-nodes"></i> social-graphic-ai.pdf</div>
+          <span class="ai-status-tag">Social AI Study</span>
+        </div>
+        <div class="pdf-card-body">
+          <object data="social-graphic-ai.pdf" type="application/pdf" class="pdf-embed-object">
+            <p style="color: #fff; font-size: 0.85rem; text-align: center; padding: 40px;">
+              PDF Preview unavailable on this browser.<br><br>
+              <a href="social-graphic-ai.pdf" target="_blank" style="color: var(--blue-bright);">Click here to download/view the document</a>
+            </p>
+          </object>
+        </div>
+        <div class="pdf-card-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">Format: Interactive Vector PDF</span>
+          <a href="social-graphic-ai.pdf" target="_blank" class="pdf-action-link">
+            Open Fullscreen <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- PDF 3: Tourism-company-ai.pdf -->
+      <div class="pdf-card hover-target">
+        <div class="pdf-card-header">
+          <div class="pdf-card-title"><i class="fa-solid fa-plane-departure"></i> Tourism-company-ai.pdf</div>
+          <span class="ai-status-tag">Tourism Campaign</span>
+        </div>
+        <div class="pdf-card-body">
+          <object data="Tourism-company-ai.pdf" type="application/pdf" class="pdf-embed-object">
+            <p style="color: #fff; font-size: 0.85rem; text-align: center; padding: 40px;">
+              PDF Preview unavailable on this browser.<br><br>
+              <a href="Tourism-company-ai.pdf" target="_blank" style="color: var(--blue-bright);">Click here to download/view the document</a>
+            </p>
+          </object>
+        </div>
+        <div class="pdf-card-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">Format: Interactive Vector PDF</span>
+          <a href="Tourism-company-ai.pdf" target="_blank" class="pdf-action-link">
+            Open Fullscreen <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- PDF 4: bawadi-rebrand.pdf -->
+      <div class="pdf-card hover-target">
+        <div class="pdf-card-header">
+          <div class="pdf-card-title"><i class="fa-solid fa-cubes"></i> bawadi-rebrand.pdf</div>
+          <span class="ai-status-tag">Brand Identity Case Study</span>
+        </div>
+        <div class="pdf-card-body">
+          <object data="bawadi-rebrand.pdf" type="application/pdf" class="pdf-embed-object">
+            <p style="color: #fff; font-size: 0.85rem; text-align: center; padding: 40px;">
+              PDF Preview unavailable on this browser.<br><br>
+              <a href="bawadi-rebrand.pdf" target="_blank" style="color: var(--blue-bright);">Click here to download/view the document</a>
+            </p>
+          </object>
+        </div>
+        <div class="pdf-card-footer">
+          <span style="font-size:0.75rem; color:var(--muted);">Format: Interactive Vector PDF</span>
+          <a href="bawadi-rebrand.pdf" target="_blank" class="pdf-action-link">
+            Open Fullscreen <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div><div class="footer-brand">Portfolio</div><p class="footer-tagline">Visual craft for people who measure success in tenths of a second.</p></div>
+      <div class="footer-links">
+        <div class="footer-col"><h4>Navigate</h4><a href="index.html">Home</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></div>
+        <div class="footer-col"><h4>Social</h4><a href="#">Instagram</a><a href="#">Behance</a><a href="#">LinkedIn</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2026 Rehab. Designed with a love for blue &amp; Formula 1.</p><p>Cairo, Egypt</p></div>
+  </div>
+</footer>
+
+<script>
+// DYNAMIC STARS GENERATION
+const starsContainer = document.getElementById('stars-container');
+const starCount = 130;
+
+for (let i = 0; i < starCount; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  const size = Math.random() * 2 + 1;
+  star.style.width = `${size}px`;
+  star.style.height = `${size}px`;
+  star.style.top = `${Math.random() * 100}%`;
+  star.style.left = `${Math.random() * 100}%`;
+  star.style.animationDuration = `${2 + Math.random() * 4}s`;
+  star.style.animationDelay = `${Math.random() * 3}s`;
+  starsContainer.appendChild(star);
+}
+
+// CURSOR LOGIC
+const cursorDot = document.getElementById('cursor-dot');
+const cursorRing = document.getElementById('cursor-ring');
+const isFine = window.matchMedia('(pointer:fine)').matches;
+let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+let ringX = mouseX, ringY = mouseY;
+
+if(isFine){
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursorDot.style.top = `${mouseY}px`; cursorDot.style.left = `${mouseX}px`;
+  });
+  function animateCursor(){
+    ringX += (mouseX - ringX) * 0.2; 
+    ringY += (mouseY - ringY) * 0.2; 
+    cursorRing.style.top = `${ringY}px`; 
+    cursorRing.style.left = `${ringX}px`; 
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('.hover-target, a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursorRing.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => cursorRing.classList.remove('hovered'));
+  });
+}
+
+// HEADER SCROLL
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('site-header');
+  if(window.scrollY > 60) header.classList.add('scrolled'); 
+  else header.classList.remove('scrolled');
+});
+</script>
+</body>
+</html>
